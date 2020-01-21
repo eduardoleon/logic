@@ -1,0 +1,350 @@
+\chapter{Teorema de deducción}
+
+\begin{motivation}
+Veamos algunas demostraciones en $L$. Sean $A,B$ frases bien formadas cualesquiera.
+
+\begin{example}
+$\vdash_L A \to A$
+
+\begin{enumerate}
+    \item $\vdash_L \La  A A$             \hfill (L1)
+    \item $\vdash_L \La    {(A \to A)} A$ \hfill (L1)
+    \item $\vdash_L \Lb  A {(A \to A)} A$ \hfill (L2)
+    \item $\vdash_L \Lbh A {(A \to A)} A$ \hfill (MP en 2 y 3)
+    \item $\vdash_L          A \to A$     \hfill (MP en 1 y 4)
+\end{enumerate}
+\end{example}
+
+\begin{example}
+$\vdash_L \Lp AB$
+
+\begin{enumerate}
+    \item $\vdash_L \Lc AB$                                          \hfill (L3)
+    \item $\vdash_L \La {\neg A}    {(\Lc AB)}$                      \hfill (L1)
+    \item $\vdash_L      \neg A \to {(\Lc AB)}$                      \hfill (MP en 1 y 2)
+    \item $\vdash_L \Lb  {\neg A} {(\neg B \to \neg A)} {(A \to B)}$ \hfill (L2)
+    \item $\vdash_L \Lbh {\neg A} {(\neg B \to \neg A)} {(A \to B)}$ \hfill (MP en 3 y 4)
+    \item $\vdash_L \La            {\neg B}   {\neg A}$              \hfill (L1)
+    \item $\vdash_L \Lp AB$                                          \hfill (MP en 5 y 6)
+\end{enumerate}
+\end{example}
+
+Como podemos apreciar, demostrar teoremas en $L$ directamente es bastante engorroso. Esto nos motiva a buscar maneras alternativas de determinar si una frase bien formada es teorema de $L$.
+
+El siguiente teorema nos permite deducir una implicación $A \to B$ de forma indirecta, transformando el antecedente $A$ en una premisa adicional de una deducción de $B$.
+\end{motivation}
+
+\begin{proposition}
+(Teorema de deducción) Si $\Gamma \cup \{ A \} \vdash_L B$, entonces $\Gamma \vdash_L A \to B$.
+\end{proposition}
+
+\begin{prove}
+Por inducción estructural en la deducción de $\Gamma \cup \{ A \} \vdash_L B$:
+
+\begin{itemize}
+    \item Si $B$ es un axioma de $L$:
+    \begin{enumerate}
+        \item $\Gamma \vdash_L B$       \hfill (axioma)
+        \item $\Gamma \vdash_L \La AB$  \hfill (L1)
+        \item $\Gamma \vdash_L A \to B$ \hfill (MP en 1 y 2)
+    \end{enumerate}
+    
+    \item Si $B \in \Gamma$:
+    \begin{enumerate}
+        \item $\Gamma \vdash_L B$       \hfill (premisa)
+        \item $\Gamma \vdash_L \La AB$  \hfill (L1)
+        \item $\Gamma \vdash_L A \to B$ \hfill (MP en 1 y 2)
+    \end{enumerate}
+    
+    \item Si $B = A$:
+    \begin{enumerate}
+        \item $\Gamma \vdash_L \La  AA$              \hfill (L1)
+        \item $\Gamma \vdash_L \La    {(A \to A)} A$ \hfill (L1)
+        \item $\Gamma \vdash_L \Lb  A {(A \to A)} A$ \hfill (L2)
+        \item $\Gamma \vdash_L \Lbh A {(A \to A)} A$ \hfill (MP en 2 y 3)
+        \item $\Gamma \vdash_L A \to A$              \hfill (MP en 1 y 4)
+    \end{enumerate}
+    
+    \item Si $B$ se deduce usando modus ponens, existe una frase bien formada $C$ tal que
+    \begin{itemize}
+        \item $\Gamma \cup \{ A \} \vdash_L C$
+        \item $\Gamma \cup \{ A \} \vdash_L C \to B$
+    \end{itemize}
+    
+    Entonces
+    \begin{enumerate}
+        \item $\Gamma \vdash_L A \to C$         \hfill (hipótesis inductiva)
+        \item $\Gamma \vdash_L A \to (C \to B)$ \hfill (hipótesis inductiva)
+        \item $\Gamma \vdash_L \Lb  ACB$        \hfill (L2)
+        \item $\Gamma \vdash_L \Lbh ACB$        \hfill (MP en 2 y 3)
+        \item $\Gamma \vdash_L A \to B$         \hfill (MP en 1 y 4)
+    \end{enumerate}
+\end{itemize}
+\end{prove}
+
+\begin{proposition}
+(Conversa del teorema de deducción) Si $\Gamma \vdash_L A \to B$, entonces $\Gamma \cup \{ A \} \vdash_L B$.
+\end{proposition}
+
+\begin{prove}
+Existe una deducción de $\Gamma \vdash_L A \to B$. Entonces
+\begin{enumerate}
+    \item $\Gamma \cup \{ A \} \vdash_L A$       \hfill (premisa)
+    \item $\Gamma \cup \{ A \} \vdash_L A \to B$ \hfill (hipótesis)
+    \item $\Gamma \cup \{ A \} \vdash_L B$       \hfill (MP en 1 y 2)
+\end{enumerate}
+\end{prove}
+
+\begin{corollary}
+Sean $A,B,C$ frases bien formadas, y sea $\Gamma = \{ A \to B, B \to C \}$. Entonces $\Gamma \vdash_L A \to C$.
+\end{corollary}
+
+\begin{prove}
+\leavevmode
+\begin{enumerate}
+    \item $\Gamma \cup \{ A \} \vdash_L A$       \hfill (premisa)
+    \item $\Gamma \cup \{ A \} \vdash_L A \to B$ \hfill (premisa)
+    \item $\Gamma \cup \{ A \} \vdash_L B$       \hfill (MP en 1 y 2)
+    \item $\Gamma \cup \{ A \} \vdash_L B \to C$ \hfill (premisa)
+    \item $\Gamma \cup \{ A \} \vdash_L C$       \hfill (MP en 3 y 4)
+    \item $\Gamma \vdash_L A \to C$              \hfill (TD en 5)
+\end{enumerate}
+\end{prove}
+
+\begin{definition}
+Una regla de deducción $R$ es \textit{admisible} para $L$ si, al agregarla a $L$, el sistema resultante no tiene teoremas nuevos.
+\end{definition}
+
+\begin{example}
+Por el corolario previo, el \textit{silogismo hipotético} $A \to B, B \to C \therefore A \to C$ es una regla admisible.
+\end{example}
+
+\begin{notation}
+Sea $P = A \to B$ una implicación. Denotaremos su contrapositiva $P^c = \neg B \to \neg A$.
+\end{notation}
+
+\begin{proposition}
+(Teoremas auxiliares) Sean $A,B$ frases bien formadas. Entonces
+\end{proposition}
+
+\begin{enumerate}[(a)]
+    \item $\vdash_L \Lp BA$
+    \begin{prove}
+    \leavevmode
+    \begin{enumerate}[1.]
+        \item $\{ \neg B \} \vdash_L B \to A$ \hfill (ejercicio 2.a)
+        \item $\vdash_L \Lp BA$               \hfill (TD en 1)
+    \end{enumerate}
+    \end{prove}
+    
+    \item $\vdash_L \Lq A$
+    \begin{prove}
+    Sean $X = \neg A \to A$, $Y = A \to \neg X$ y $Z = X \to A$.
+    \begin{enumerate}[1.]
+        \item $\{ X \} \vdash_L X$                              \hfill (premisa)
+        \item $\{ X \} \vdash_L \neg A \to Y$                   \hfill (TA a)
+        \item $\{ X \} \vdash_L (\neg A \to Y) \to (X \to Z^c)$ \hfill (L2)
+        \item $\{ X \} \vdash_L X \to Z^c$                      \hfill (MP en 2 y 3)
+        \item $\{ X \} \vdash_L Z^c$                            \hfill (MP en 1 y 4)
+        \item $\{ X \} \vdash_L Z^c \to Z$                      \hfill (L3)
+        \item $\{ X \} \vdash_L Z$                              \hfill (MP en 5 y 6)
+        \item $\{ X \} \vdash_L A$                              \hfill (MP en 1 y 7)
+        \item $\vdash_L X \to A$                                \hfill (TD en 8)
+    \end{enumerate}
+    \end{prove}
+\end{enumerate}
+
+\begin{exercise}
+Sean $A,B$ frases bien formadas cualesquiera. Usando el teorema de deducción, muestre que las siguientes frases bien formadas son teoremas de $L$.
+\end{exercise}
+
+\begin{enumerate}[(a)]
+    \item $A \to \neg \neg A$
+    \begin{solution}
+    Sea $X = A \to \neg \neg A$.
+    \begin{enumerate}[1.]
+        \item $\{ \neg \neg \neg A \} \vdash_L \neg A$ \hfill (ejercicio 2.b)
+        \item $\vdash_L X^c$                       \hfill (TD en 1)
+        \item $\vdash_L X^c \to X$                 \hfill (L3)
+        \item $\vdash_L X$                         \hfill (MP en 2 y 3)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $(B \to A) \to (\neg A \to \neg B)$
+    \begin{solution}
+    Sea $X = B \to A$.
+    \begin{enumerate}[1.]
+        \item $\{ X, \neg \neg B \} \vdash_L B$                 \hfill (ejercicio 2.b)
+        \item $\{ X, \neg \neg B \} \vdash_L X$                 \hfill (premisa)
+        \item $\{ X, \neg \neg B \} \vdash_L A$                 \hfill (MP en 1 y 2)
+        \item $\{ X, \neg \neg B \} \vdash_L A \to \neg \neg A$ \hfill (ejercicio 3.a)
+        \item $\{ X, \neg \neg B \} \vdash_L \neg \neg A$       \hfill (MP en 3 y 4)
+        \item $\{ X \} \vdash_L X^{cc}$                         \hfill (TD en 5)
+        \item $\{ X \} \vdash_L X^{cc} \to X^c$                 \hfill (L3)
+        \item $\{ X \} \vdash_L X^c$                            \hfill (MP en 6 y 7)
+        \item $\vdash_L X \to X^c$                              \hfill (TD en 8)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $((A \to B) \to A) \to A$
+    \begin{solution}
+    Sea $X = (A \to B) \to A$.
+    \begin{enumerate}[1.]
+        \item $\{ X, \neg A \} \vdash_L \neg A$  \hfill (premisa)
+        \item $\{ X, \neg A \} \vdash_L \Lp AB$  \hfill (TA a)
+        \item $\{ X, \neg A \} \vdash_L A \to B$ \hfill (MP en 1 y 2)
+        \item $\{ X, \neg A \} \vdash_L X$       \hfill (premisa)
+        \item $\{ X, \neg A \} \vdash_L A$       \hfill (MP en 3 y 4)
+        \item $\{ X \} \vdash_L \neg A \to A$    \hfill (TD en 5)
+        \item $\{ X \} \vdash_L \Lq A$           \hfill (TA b)
+        \item $\{ X \} \vdash_L A$               \hfill (MP en 6 y 7)
+        \item $\vdash_L X \to A$                 \hfill (TD en 8)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $\neg (A \to B) \to (B \to A)$
+    \begin{solution}
+    Sean $X = A \to B$, $Y = B \to X$ y $Z = B \to A$.
+    \begin{enumerate}[1.]
+        \item $\{ \neg X \} \vdash_L \neg X$       \hfill (premisa)
+        \item $\{ \neg X \} \vdash_L Y$            \hfill (L1)
+        \item $\{ \neg X \} \vdash_L Y \to Y^c$    \hfill (ejercicio 3.b)
+        \item $\{ \neg X \} \vdash_L Y^c$          \hfill (MP en 2 y 3)
+        \item $\{ \neg X \} \vdash_L \neg B$       \hfill (MP en 1 y 4)
+        \item $\{ \neg X \} \vdash_L \neg B \to Z$ \hfill (TA a)
+        \item $\{ \neg X \} \vdash_L Z$            \hfill (MP en 5 y 6)
+        \item $\vdash_L \neg X \to Z$              \hfill (TD en 7)
+    \end{enumerate}
+    \end{solution}
+\end{enumerate}
+
+\begin{exercise}
+Sea $L'$ el sistema formal que resulta de reemplazar el esquema de axiomas L3 por
+\begin{itemize}
+    \item \textbf{L3':} $(\neg A \to \neg B) \to ((\neg A \to B) \to A)$
+\end{itemize}
+Luego
+\begin{enumerate}
+    \item Muestre que toda instancia de L3' es teorema de $L$.
+    \item Muestre que toda instancia de L3 es teorema de $L'$.
+    \item Deduzca que una frase bien formada es teorema de $L$ si y sólo si es teorema de $L'$.
+\end{enumerate}
+\end{exercise}
+
+\begin{remark}
+La demostración del teorema de deducción no usa el esquema de axiomas L3. Por ende, este teorema es tan válido para $L'$ como lo es para $L$.
+\end{remark}
+
+\begin{solution}
+Sean $X = B \to A$ e $Y = \neg A \to B$.
+\begin{enumerate}[(a)]
+    \item $\vdash_L X^c \to (Y \to A)$
+    \leavevmode
+    \begin{enumerate}[1.]
+        \item $\{ X^c, Y, \neg A \} \vdash_L \neg A$    \hfill (premisa)
+        \item $\{ X^c, Y, \neg A \} \vdash_L Y$         \hfill (premisa)
+        \item $\{ X^c, Y, \neg A \} \vdash_L B$         \hfill (MP en 1 y 2)
+        \item $\{ X^c, Y, \neg A \} \vdash_L X^c$       \hfill (premisa)
+        \item $\{ X^c, Y, \neg A \} \vdash_L X^c \to X$ \hfill (L3)
+        \item $\{ X^c, Y, \neg A \} \vdash_L X$         \hfill (MP en 4 y 5)
+        \item $\{ X^c, Y, \neg A \} \vdash_L A$         \hfill (MP en 3 y 6)
+        \item $\{ X^c, Y \} \vdash_L \neg A \to A$      \hfill (TD en 7)
+        \item $\{ X^c, Y \} \vdash_L \Lq A$             \hfill (TA b)
+        \item $\{ X^c, Y \} \vdash_L A$                 \hfill (MP en 8 y 9)
+        \item $\{ X^c \} \vdash_L Y \to A$              \hfill (TD en 10)
+        \item $\vdash_L X^c \to (Y \to A)$              \hfill (TD en 11)
+    \end{enumerate}
+    
+    \item $\vdash_{L'} X^c \to X$
+    \leavevmode
+    \begin{enumerate}[1.]
+        \item $\{ X^c, B \} \vdash_{L'} B$                 \hfill (premisa)
+        \item $\{ X^c, B \} \vdash_{L'} B \to Y$           \hfill (L1)
+        \item $\{ X^c, B \} \vdash_{L'} Y$                 \hfill (MP en 1 y 2)
+        \item $\{ X^c, B \} \vdash_{L'} X^c$               \hfill (premisa)
+        \item $\{ X^c, B \} \vdash_{L'} X^c \to (Y \to A)$ \hfill (L3')
+        \item $\{ X^c, B \} \vdash_{L'} Y \to A$           \hfill (MP en 4 y 5)
+        \item $\{ X^c, B \} \vdash_{L'} A$                 \hfill (MP en 3 y 6)
+        \item $\{ X^c \} \vdash_{L'} X$                    \hfill (TD en 7)
+        \item $\vdash_{L'} X^c \to X$                      \hfill (TD en 8)
+    \end{enumerate}
+    
+    \item Sea $T$ un teorema de $L$. Por inducción estructural en la demostración de $T$:
+    
+    \begin{itemize}
+        \item Si $T$ es un axioma de $L$, entonces es teorema de $L'$, por la parte (b) de este ejercicio.
+        \item Si $T$ se deduce usando modus ponens, existe una frase bien formada $A$ tal que
+        \begin{itemize}
+            \item $\vdash_L A$
+            \item $\vdash_L A \to T$
+        \end{itemize}
+        
+        Entonces
+        \begin{enumerate}[1.]
+            \item $\vdash_{L'} A$       \hfill (hipótesis inductiva)
+            \item $\vdash_{L'} A \to T$ \hfill (hipótesis inductiva)
+            \item $\vdash_{L'} T$       \hfill (MP en 1 y 2)
+        \end{enumerate}
+    \end{itemize}
+    
+    Conversamente, sea $T$ un teorema de $L'$. Por inducción estructural en la demostración de $T$:
+    
+    \begin{itemize}
+        \item Si $T$ es un axioma de $L'$, entonces es teorema de $L$, por la parte (a) de este ejercicio.
+        \item Si $T$ se deduce usando modus ponens, existe una frase bien formada $A$ tal que
+        \begin{itemize}
+            \item $\vdash_{L'} A$
+            \item $\vdash_{L'} A \to T$
+        \end{itemize}
+        
+        Entonces
+        \begin{enumerate}[1.]
+            \item $\vdash_L A$       \hfill (hipótesis inductiva)
+            \item $\vdash_L A \to T$ \hfill (hipótesis inductiva)
+            \item $\vdash_L T$       \hfill (MP en 1 y 2)
+        \end{enumerate}
+    \end{itemize}
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+¿Es la regla $B, A \to (B \to C) \therefore A \to C$ admisible para $L$? Justifique.
+\end{exercise}
+
+\begin{solution}
+Sea $R$ la nueva regla de deducción y sea $A$ un teorema de $L+R$. Por inducción estructural en la demostración de $T$:
+
+\begin{itemize}
+    \item Si $T$ es un axioma de $L+R$, entonces es un axioma de $L$, por ende es un teorema de $L$.
+    \item Si $T$ se deduce usando modus ponens, existe una frase bien formada $A$ tal que
+    \begin{itemize}
+        \item $\vdash_{L+R} A$
+        \item $\vdash_{L+R} A \to T$
+    \end{itemize}
+    
+    Entonces
+    \begin{enumerate}
+        \item $\vdash_L A$       \hfill (hipótesis inductiva)
+        \item $\vdash_L A \to T$ \hfill (hipótesis inductiva)
+        \item $\vdash_L T$       \hfill (MP en 1 y 2)
+    \end{enumerate}
+    
+    \item Si $T = A \to C$ se deduce usando $R$, existe una frase bien formada $B$ tal que
+    \begin{itemize}
+        \item $\vdash_{L+R} B$
+        \item $\vdash_{L+R} A \to (B \to C)$
+    \end{itemize}
+    
+    Pongamos $X = A \to (B \to C)$. Entonces
+    \begin{enumerate}
+        \item $\{ X \} \vdash_L B$       \hfill (hipótesis inductiva)
+        \item $\{ X \} \vdash_L B \to T$ \hfill (ejercicio 2.d)
+        \item $\{ X \} \vdash_L T$       \hfill (MP en 1 y 2)
+        \item $\vdash_L X \to T$         \hfill (TD en 3)
+        \item $\vdash_L X$               \hfill (premisa)
+        \item $\vdash_L T$               \hfill (MP en 5 y 4)
+    \end{enumerate}
+\end{itemize}
+
+Por ende, todo teorema de $L+R$ es teorema de $L$, i.e., la regla $R$ es admisible.
+\end{solution}

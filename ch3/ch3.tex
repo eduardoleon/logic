@@ -1,0 +1,132 @@
+\chapter{Valoraciones y satisfacción}
+
+\begin{notation}
+Denotaremos por $\mathscr T$ el conjunto de términos de $\mathscr L$.
+\end{notation}
+
+\begin{definition}
+Una \textit{valoración} en una interpretación $I$ es una función $v : \mathscr T \to D_I$ tal que
+\begin{itemize}
+    \item $v(a_i) = \bar a_i$, para toda constante $a_i$ de $\mathscr L$.
+    \item $v(f_i^n(t_1 \dots t_n)) = \bar f_i^n(v_1 \dots v_n)$ con $v_k = v(t_k)$, para toda función $f_i^n$ de $\mathscr L$.
+\end{itemize}
+\end{definition}
+
+\begin{remarks}
+Supongamos que queremos construir una valoración $v : \mathscr T \to D_I$.
+\begin{itemize}
+    \item Los valores de $v(x_i)$ para cada $i \in \mathbb N$ pueden ser escogidos arbitrariamente.
+    \item Los valores de $v(x_i)$ para todo $i \in \mathbb N$ determinan completamente la valoración $v$.
+\end{itemize}
+\end{remarks}
+
+\begin{definition}
+Dos valoraciones $v, w : \mathscr T \to D_I$ son $i$-\textit{equivalentes} si $v(x_j) = w(x_j)$ para todo $j \ne i$.
+\end{definition}
+
+\begin{notation}
+Sea $v : \mathscr T \to D_I$ una valoración y sea $b \in D_I$ un elemento cualquiera.
+
+\begin{itemize}
+    \item Denotaremos por $[v]_i$ la clase de $i$-equivalencia de $v$.
+    \item Denotaremos por $v_b \in [v]_i$ la valoración $i$-equivalente tal que $v_b(x_i) = b$.
+\end{itemize}
+\end{notation}
+
+\begin{remark}
+Todo $w \in [v]_i$ es de la forma $v_b \in [v]_i$. Específicamente, tomemos $b = w(x_i)$.
+\end{remark}
+
+\begin{definition}
+Sea $v : \mathscr T \to D_I$ una valoración. Por inducción estructural en las frases de $\mathscr L$:
+
+\begin{itemize}
+    \item Decimos que $v$ \textit{satisface} $A_i^n(t_1 \dots t_n)$, si $\bar A_i^n(v_1 \dots v_n)$ con $v_k = v(x_k)$.
+    \item Decimos que $v$ \textit{satisface} $\neg A$, si $v$ no satisface $A$.
+    \item Decimos que $v$ \textit{satisface} $A \to B$, si $v$ no satisface $A$ o sí satisface $B$.
+    \item Decimos que $v$ \textit{satisface} $(\forall x_i) A$, si todo $w \in [v]_i$ satisface $A$.
+\end{itemize}
+\end{definition}
+
+\begin{remarks}
+Nuestro objetivo es definir que significan las frases de $\mathscr L$ en una valoración específica $v$, es decir, una vez que hemos decidido que cada variable $x_i$ significa $v(x_i)$.
+
+\begin{itemize}
+    \item El primer ítem de esta definición simplemente exige que la noción de satisfacción sea consistente con la interpretación que estamos dando a $\mathscr L$.
+    
+    \item Los dos siguientes ítems son análogos a la definición de valoración en $L$. En particular, si fijamos una frase bien formada $A$, o bien $v$ satisface $A$ o bien $v$ satisface $\neg A$.
+    
+    \item El último ítem requiere mayor explicación. Nuestra intención es que $(\forall x_i) A$ signifique ``para todo $x_i$, se cumple $A$''. En otras palabras, sin importar cómo (re)definamos el valor de $x_i$, el significado de $A$ debe ser cierto. Éste es precisamente el efecto de considerar si todo $w \in [v]_i$ satisface $A$.
+\end{itemize}
+\end{remarks}
+
+\setcounter{exercise}{13}
+\begin{exercise}
+En la interpretación $N$ dada en el capítulo anterior, encuentre valoraciones que satisfacen y no satisfacen cada una de las siguientes frases bien formadas.
+\end{exercise}
+
+\begin{remark}
+Recordemos que $D_N = \mathbb N$ y los símbolos se interpretan de la siguiente manera: $\bar a_1$ es cero, $\bar f_1^2$ es la adición, $\bar f_2^2$ es la multiplicación y $\bar A_1^2$ es la relación de igualdad.
+\end{remark}
+
+\begin{enumerate}[(a)]
+    \item $A_1^2(f_1^2(x_1, x_1), f_1^2(x_2, x_3))$
+    \begin{solution}
+    La valoración $v(x_i) = 0$ satisface esta frase y la valoración $v(x_i) = 1$ no la satisface.
+    \end{solution}
+    
+    \item $A_1^2(f_1^2(x_1, a_1), x_2) \to A_1^2(f_1^2(x_1, x_2), x_3)$
+    \begin{solution}
+    La valoración $v(x_i) = 0$ satisface esta frase y la valoración $v(x_i) = 1$ no la satisface.
+    \end{solution}
+    
+    \item $\neg A_1^2(f_2^2(x_1, x_2), f_2^2(x_2, x_3))$
+    \begin{solution}
+    La valoración $v(x_i) = i$ satisface esta frase y la valoración $v(x_i) = 0$ no la satisface.
+    \end{solution}
+    
+    \item $(\forall x_1) \, A_1^2(f_2^2(x_1, x_2), x_3)$
+    \begin{solution}
+    La valoración $v(x_i) = 0$ satisface esta frase y la valoración $v(x_i) = 1$ no la satisface.
+    \end{solution}
+    
+    \item $(\forall x_1) \, A_1^2(f_2^2(x_1, a_1), x_1) \to A_1^2(x_1, x_2)$
+    \begin{solution}
+    El antecedente es falso en $N$, por ende la implicación es verdadera en $N$.
+    \end{solution}
+\end{enumerate}
+
+\begin{exercise}
+En la interpretación $I$ dada en el capítulo anterior, encuentre valoraciones que satisfacen y no satisfacen cada una de las siguientes frases bien formadas.
+\end{exercise}
+
+\begin{remark}
+Recordemos que $D_I = \mathbb Z$ y los símbolos se interpretan de la siguiente manera: $\bar a_1$ es cero, $\bar f_1^2$ es la sustracción y $\bar A_2^2$ es la relación ``menor que''.
+\end{remark}
+
+\begin{enumerate}[(a)]
+    \item $A_2^2(x_1, a_1)$
+    \begin{solution}
+    La valoración $v(x_i) = -1$ ssatisface esta frase y la valoración $v(x_i) = 1$ no la satisface.
+    \end{solution}
+    
+    \item $A_2^2(f_1^2(x_1, x_2), x_1) \to A_2^2(a_1, f_1^2(x_1, x_2))$
+    \begin{solution}
+    La valoración $v(x_i) = -i$ satisface esta frase y la valoración $v(x_i) = i$ no la satisface.
+    \end{solution}
+    
+    \item $\neg A_2^2(x_1, f_1^2(x_1, f_1^2(x_1, x_2)))$
+    \begin{solution}
+    La valoración $v(x_i) = -i$ satisface la frase y la valoración $v(x_i) = i$ no la satisface.
+    \end{solution}
+    
+    \item $(\forall x_1) \, A_2^2(f_1^2(x_1, x_2), x_3)$
+    \begin{solution}
+    Esta frase es falsa en $I$.
+    \end{solution}
+    
+    \item $(\forall x_1) \, A_2^2(f_1^2(x_1, a_1), x_1) \to A_2^2(x_1, x_2)$
+    \begin{solution}
+    El antecedente es falso en $I$, por ende la implicación es verdadera en $I$.
+    \end{solution}
+\end{enumerate}

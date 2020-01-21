@@ -1,0 +1,90 @@
+\chapter{Teorema de solidez}
+
+\begin{notation}
+Denotamos por $\mathscr F$ el conjunto de frases bien formadas de $L$.
+\end{notation}
+
+\begin{notation}
+Denotamos el conjunto de valores de verdad $\Omega = \{ V, F \}$.
+\end{notation}
+
+\begin{definition}
+Una \textit{valoración} en $L$ es una función $v : \mathscr F \to \Omega$ tal que
+\begin{itemize}
+    \item $v(A) \ne v(\neg A)$
+    \item $v(A \to B) = F$ si y sólo si $v(A) = V$ y $v(B) = F$.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+Una valoración es una asignación de valores de verdad para las proposiciones atómicas.
+\end{remark}
+
+\begin{definition}
+Una \textit{tautología} es una frase bien formada $A$ tal que $v(A) = V$ para toda valoración.
+\end{definition}
+
+\begin{proposition}
+(Teorema de solidez) Todo teorema de $L$ es una tautología.
+\end{proposition}
+
+\begin{prove}
+Por inducción estructural en la demostración de $\vdash_L A$:
+
+\begin{itemize}
+    \item Si $A$ es un axioma de $L$, entonces es una tautología (ejercicio).
+    
+    \item Si $A$ se deduce por modus ponens, existe una frase bien formada $B$ tal que
+    \begin{itemize}
+        \item $\vdash_L B$
+        \item $\vdash_L B \to A$
+    \end{itemize}
+    
+    Inductivamente, $B$ y $B \to A$ son tautologías. Sea $v : \mathscr F \to \Omega$ una valoración cualquiera. Entonces se tiene $v(B) = v(B \to A) = V$, lo cual implica que $v(A) = V$.
+\end{itemize}
+\end{prove}
+
+\begin{exercise}
+Pruebe que todo axioma de $L$ es una tautología.
+\end{exercise}
+
+\begin{solution}
+Construyamos las tablas de verdad de L1, L2 y L3.
+
+\begin{center}
+\begin{tabular}{cc|c|c|c|c}
+    $A$ & $B$ & $A \to B$ & $\neg B \to \neg A$ & L1 & L3 \\
+    \hline
+    V & V & V & V & V & V \\
+    V & F & F & F & V & V \\
+    F & V & V & V & V & V \\
+    F & F & V & V & V & V \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ccc|c|c|c}
+    $A$ & $B$ & $C$ & $A \to (B \to C)$ & $\Lbh ABC$ & L2 \\
+    \hline
+    V & V & V & V & V & V \\
+    V & V & F & F & F & V \\
+    V & F & V & V & V & V \\
+    V & F & F & V & V & V \\
+    F & V & V & V & V & V \\
+    F & V & F & V & V & V \\
+    F & F & V & V & V & V \\
+    F & F & F & V & V & V \\
+\end{tabular}
+\end{center}
+
+Sea $P$ un axioma de $L$ y sea $v : \mathscr F \to \Omega$ una valoración.
+\begin{itemize}
+    \item Si $P = \La AB$, los valores de $v(A)$ y $v(B)$ determinan una única fila en la primera tabla de verdad. La entrada en la columna L1 es el valor de $v(P)$.
+    
+    \item Si $P = \Lb ABC$, los valores de $v(A)$, $v(B)$ y $v(C)$ determinan una única fila en la segunda tabla de verdad. La entrada en la columna L2 es el valor de $v(P)$.
+    
+    \item Si $P = \Lc AB$, los valores de $v(A)$ y $v(B)$ determinan una única fila en la primera tabla de verdad. La entrada en la columna L3 es el valor de $v(P)$.
+\end{itemize}
+
+En todos los casos, $v(P) = V$. Por lo tanto, $P$ es una tautología.
+\end{solution}

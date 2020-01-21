@@ -1,0 +1,258 @@
+\chapter{Teorema de adecuación}
+
+\begin{preliminaries}
+Para probar la conversa del teorema de solidez, necesitamos definir algunos conceptos nuevos.
+\end{preliminaries}
+
+\begin{definition}
+Una \textit{extensión} de $L$ es un sistema formal $L^\star$ obtenido aumentando o cambiando los axiomas de $L$ de tal manera que los teoremas de $L$ sigan siendo teoremas de $L^\star$.
+\end{definition}
+
+\begin{definition}
+Una extensión de $L$ es \textit{propia} si tiene teoremas nuevos que no son demostrables en $L$.
+\end{definition}
+
+\begin{definition}
+Una extensión de $L$ es \textit{consistente} si no existe ninguna frase bien formada $A$ tal que tanto $A$ como $\neg A$ son teoremas de la extensión.
+\end{definition}
+
+\begin{proposition}
+El sistema formal $L$ es consistente.
+\end{proposition}
+
+\begin{proof}
+Sea $A$ un teorema de $L$. Por el teorema de solidez, $A$ es una tautología. Entonces $\neg A$ es una contradicción, por ende no es una tautología. Por el teorema de solidez, $\neg A$ no es un teorema de $L$.
+\end{proof}
+
+\begin{proposition}
+Una extensión $L$ es consistente si y sólo si existe una frase bien formada que no es teorema de la extensión.
+\end{proposition}
+
+\begin{prove}
+Sea $L^\star$ la extensión en cuestión y sea $A$ una frase bien formada arbitraria.
+\begin{itemize}
+    \item Si $L$ es consistente, o bien $A$ o bien $\neg A$ no es teorema de $L^\star$.
+    \item Si $L$ no es consistente, existe una frase bien formada $B$ tal que
+    \begin{enumerate}
+        \item $\vdash_{L^\star} B$                    \hfill (inconsistencia)
+        \item $\vdash_{L^\star} \neg B$               \hfill (inconsistencia)
+        \item $\vdash_{L^\star} \neg B \to (B \to A)$ \hfill (TA a)
+        \item $\vdash_{L^\star} B \to A$              \hfill (MP en 2 y 3)
+        \item $\vdash_{L^\star} A$                    \hfill (MP en 1 y 4)
+    \end{enumerate}
+\end{itemize}
+\end{prove}
+
+\begin{proposition}
+Sea $L^\star$ una extensión consistente de $L$ y sea $A$ una frase bien formada que no es teorema de $L^\star$. Entonces $L^{\star \star}$, la extensión obtenida añadiendo $\neg A$ como axioma, es consistente.
+\end{proposition}
+
+\begin{prove}
+Supongamos por el absurdo que $L^{\star \star}$ no es consistente. Entonces
+\begin{enumerate}
+    \item $\vdash_{L^{\star \star}} A$      \hfill (proposición anterior)
+    \item $\{ \neg A \} \vdash_{L^\star} A$ \hfill (equivalente)
+    \item $\vdash_{L^\star} \neg A \to A$   \hfill (TD en 2)
+    \item $\vdash_{L^\star} \Lq A$          \hfill (TA b)
+    \item $\vdash_{L^\star} A$              \hfill (MP en 3 y 4)
+\end{enumerate}
+\end{prove}
+
+\begin{definition}
+Una extensión de $L$ es \textit{completa} si, para cualquier frase bien formada, o bien $A$ o bien $\neg A$ es teorema de la extensión.
+\end{definition}
+
+\begin{remarks}
+\leavevmode
+\begin{itemize}
+    \item El sistema formal $L$ no es completo.
+    \item Toda extensión inconsistente de $L$ es trivialmente completa.
+    \item Toda extensión no trivial de un sistema completo es inconsistente.
+\end{itemize}
+\end{remarks}
+
+\begin{proposition}
+Sea $L^\star$ una extensión consistente de $L$. Entonces existe una extensión $J$ de $L^\star$ que es tanto consistente como completa.
+\end{proposition}
+
+\begin{proof}
+Sea $A_n$ una enumeración cualquiera de las frases bien formadas de $L$. Sea $J_n$ la cadena de extensiones de $L^\star$ definida inductivamente por
+$$
+J_0 = L^\star, \qquad
+J_{n+1} =
+    \begin{cases}
+        J_n              & \text{si } A_n \text{ es teorema de $J_n$} \\
+        J_n + (\neg A_n) & \text{en caso contrario}
+    \end{cases}
+$$
+
+Finalmente, sea $J$ la extensión de $L^\star$ cuyos axiomas son las frases bien formadas que son axiomas de alguna extensión intermedia $J_n$.
+
+Por hipótesis, $J_0 = L^\star$ es consistente. Usando la proposición anterior, si la extensión intermedia $J_n$ es consistente, entonces la extensión intermedia siguiente $J_{n+1}$ también lo es. Por el principio de inducción, todas las extensiones intermedias $J_n$ son consistentes.
+
+Sea $T$ un teorema de $J$. Existe una extensión intermedia $J_n$ que contiene todos los axiomas usados en alguna demostración de $T$. Para todo $k \ge n$, la extensión $J_k$ es más fuerte que $J_n$, por ende $T$ es teorema de $J_k$. Como $J_k$ es consistente, $\neg T$ no es teorema de $J_k$. Para todo $k \le n$, la extensión $J_k$ es más débil que $J_n$, por ende $\neg T$ no es teorema de $J_k$. Entonces $\neg T$ no es teorema de $J$. Por ende $J$ es consistente.
+
+Sea $A_n$ cualquier frase bien formada. Por construcción, o bien $A_n$ o bien $\neg A_n$ es teorema de $J_{n+1}$, por ende teorema de $J$. Por ende $J$ es completo.
+\end{proof}
+
+\begin{proposition}
+Sea $L^\star$ una extensión consistente de $L$. Entonces existe una valoración $v : \mathscr F \to \Omega$ tal que $v(A) = V$ para toda frase bien formada $A$ que es teorema de $L^\star$.
+\end{proposition}
+
+\begin{prove}
+Sea $J$ una extensión consistente y completa de $L^\star$. Sea $v : \mathscr F \to \Omega$ la función dada por
+$$
+v(A) =
+    \begin{cases}
+        V & \text{si } \vdash_J A \\
+        F & \text{si } \vdash_J \neg A
+    \end{cases}
+$$
+
+Sean $A,B$ frases bien formadas cualesquiera.
+\begin{itemize}
+    \item Puesto que $J$ es consistente, $v(A)$ y $v(\neg A)$ no son simultáneamente verdaderos.
+    
+    \item Puesto que $J$ es completa, $v(A)$ y $v(\neg A)$ no son simultáneamente falsos.
+    
+    \item Si $v(A) = v(A \to B) = V$:
+    \begin{enumerate}
+        \item $\vdash_J A$       \hfill (definición de $v$)
+        \item $\vdash_J A \to B$ \hfill (definición de $v$)
+        \item $\vdash_J B$       \hfill (MP en 1 y 2)
+    \end{enumerate}
+    
+    Entonces, por definición, $v(B) = V$.
+
+    \item Si $v(A) = F$:
+    \begin{enumerate}
+        \item $\vdash_J \neg A$                  \hfill (definición de $v$)
+        \item $\vdash_J \La {\neg B}   {\neg A}$ \hfill (L1)
+        \item $\vdash_J      \neg B \to \neg A$  \hfill (MP en 1 y 2)
+        \item $\vdash_J \Lc AB$                  \hfill (L3)
+        \item $\vdash_J A \to B$                 \hfill (MP en 3 y 4)
+    \end{enumerate}
+    
+    Entonces, por definición, $v(A \to B) = V$.
+
+    \item Si $v(B) = V$:
+    \begin{enumerate}
+        \item $\vdash_J B$       \hfill (definición de $v$)
+        \item $\vdash_J A \to B$ \hfill (TD en 1)
+    \end{enumerate}
+    
+    Entonces, por definición, $v(A \to B) = V$.
+\end{itemize}
+
+Por ende $v$ es una valoración.
+\end{prove}
+
+\begin{proposition}
+(Teorema de adecuación) Sea $A$ una tautología de $L$. Entonces $\vdash_L A$.
+\end{proposition}
+
+\begin{proof}
+Supongamos que $A$ no es teorema de $L$. Sea $L^\star$ la extensión formada agregando el axioma $\neg A$ al sistema $L$. Por la proposición anterior, existe una valoración $v : \mathscr F \to \Omega$ tal que $v(\neg A) = V$, por ende $v(A) = F$, por ende $A$ no es una tautología.
+\end{proof}
+
+\begin{proposition}
+(Gödel) No se puede demostrar la consistencia lógica de ZFC.
+\end{proposition}
+
+\begin{proof}
+No se dará en este momento. Conforme los sistemas formales se vuelven más complicados, resulta más y más difícil probar su consistencia.
+\end{proof}
+
+\begin{proposition}
+El sistema formal $L$ es \textit{decidible}, i.e., existe un método efectivo para decidir si una frase bien formada de $L$ es un teorema.
+\end{proposition}
+
+\begin{proof}
+El método consiste en construir la tabla de verdad de la frase bien formada en cuestión. Una frase bien formada es un teorema si y sólo si es una tautología si y sólo si su tabla de verdad así lo demuestra.
+\end{proof}
+
+\begin{exercise}
+Sea $A$ una frase bien formada. Pruebe que el conjunto de teoremas de $L+A$ es diferente del conjunto de teoremas de $L$ si y sólo si $A$ no es un teorema de $L$.
+\end{exercise}
+
+\begin{notation}
+Sea $L^\star$ una extensión de $L$. Denotaremos por $\mathscr T_{L^\star}$ el conjunto de teoremas de $L^\star$.
+\end{notation}
+
+\begin{solution}
+Por construcción, $A \in \mathscr T_{L+A}$ y $\mathscr T_L \subset \mathscr T_{L+A}$.
+\begin{itemize}
+    \item Si $A \not \in \mathscr T_L$, entonces $\mathscr T_L \subset \mathscr T_{L+A}$ es una inclusión propia.
+    \item Si $A \in \mathscr T_L$ y $B \in \mathscr T_{L+A}$, existen demostraciones $C_1 \dots C_m$ de $A$ en $L$ y $D_1 \dots D_n$ de $B$ en $L+A$. La concatenación $C_1 \dots C_m, D_1 \dots D_n$ es una demostración de $B$ en $L$. Por ende, $\mathscr T_L = \mathscr T_{L+A}$.
+\end{itemize}
+\end{solution}
+
+\begin{exercise}
+Sea $A$ la frase bien formada $((\neg p_1 \to p_2) \to (p_1 \to \neg p_2))$. Pruebe que la inclusión $\mathscr T_L \subset \mathscr T_{L+A}$ es propia. ¿Es $L+A$ una extensión consistente de $L$? Justifique.
+\end{exercise}
+
+\begin{solution}
+Construyamos la tabla de verdad de $A$ y $\neg A$.
+
+\begin{center}
+\begin{tabular}{cc|c|c}
+    $p_1$ & $p_2$ & $A$ & $\neg A$ \\
+    \hline
+    V & V & F & V \\
+    V & F & V & F \\
+    F & V & V & F \\
+    F & F & V & F \\
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+    \item Como $A$ no es tautología, $A$ no es un teorema de $L$, entonces $L+A$ es una extensión propia de $L$.
+    \item Como $\neg A$ no es tautología, $\neg A$ no es teorema de $L$, entonces $L + (\neg \neg A)$ es consistente. Como todo teorema de $L+A$ es teorema de $L + (\neg \neg A)$, entonces $L+A$ es consistente.
+\end{itemize}
+\end{solution}
+
+\begin{exercise}
+Pruebe que, si $B$ es una contradicción, entonces $B$ no puede ser teorema de ninguna extensión consistente de $L$.
+\end{exercise}
+
+\begin{solution}
+Como $B$ es una contradicción, $\neg B$ es una tautología, entonces $\neg B$ es teorema de $L$, entonces $\neg B$ es teorema de toda extensión de $L$. Si $L^\star$ es una extensión de $L$ en la cual $B$ también es teorema, entonces $L^\star$ es inconsistente.
+\end{solution}
+
+\begin{exercise}
+Sea $L^\star$ la extensión de $L$ formada añadiendo un cuarto esquema de axiomas:
+\begin{itemize}
+    \item \textbf{L4:} $(\neg A \to B) \to (A \to \neg B)$
+\end{itemize}
+
+Pruebe que $L^\star$ es una extensión inconsistente.
+\end{exercise}
+
+\begin{solution}
+Construyamos la tabla de verdad de L4.
+
+\begin{center}
+\begin{tabular}{cc|c}
+    $A$ & $B$ & L4 \\
+    \hline
+    V & V & F \\
+    V & F & V \\
+    F & V & V \\
+    F & F & V \\
+\end{tabular}
+\end{center}
+
+Sean $A,B$ tautologías. La frase bien formada $P = (\neg A \to B) \to (A \to \neg B)$ es un axioma de $L^\star$. Sin embargo, como se puede ver en la primera fila de la tabla de verdad, $P$ es una contradicción. Por ende $L^\star$ no es consistente.
+\end{solution}
+
+\begin{exercise}
+Sea $J$ una extensión consistente y completa de $L$, y sea $A$ una frase bien formada. Muestre que $J+A$ es consistente si y sólo si $A$ es teorema de $J$.
+\end{exercise}
+
+\begin{solution}
+O bien $A$ o bien $\neg A$ es teorema de $J$, pero no las dos a la vez.
+\begin{itemize}
+    \item Si $A$ es teorema de $J$, entonces $J+A$ tiene los mismos teoremas que $J$, por ende es consistente.
+    \item Si $\neg A$ es teorema de $J$, entonces $J+A$ es inconsistente por construcción.
+\end{itemize}
+\end{solution}

@@ -1,0 +1,271 @@
+\chapter{Definiciones básicas}
+
+\begin{definition}
+Un \textit{lenguaje de primer orden} $\mathscr L$ consta de
+
+\begin{enumerate}
+    \item \textbf{Alfabeto:} Hay seis tipos de símbolos.
+    \begin{itemize}
+        \item \textit{Variables:} $x_0, x_1, x_2 \dots$
+        \item \textit{Constantes:} todas o algunas de $a_0, a_1, a_2 \dots$
+        \item \textit{Funciones:} todas o algunas de $f_0^1, f_1^1 \dots f_0^2, f_1^2 \dots f_0^3, f_1^3 \dots$
+        \item \textit{Predicados:} todas o algunas de $A_0^1, A_1^1 \dots A_0^2, A_1^2 \dots A_0^3, A_1^3 \dots$
+        \item \textit{Conectores:} $\neg$ (negación) y $\to$ (implicación)
+        \item \textit{Cuantificadores:} $\forall$ (cuantificador universal)
+        \item \textit{Puntuación:} paréntesis de apertura y cierre, comas
+    \end{itemize}
+    
+    \item \textbf{Términos:} Hay tres formas de construir términos.
+    \begin{itemize}
+        \item Toda variable $x_i$ es un término.
+        \item Toda constante $a_i$ es un término.
+        \item Si $f_i^n$ es una función y $t_1 \dots t_n$ son términos, entonces $f_i^n(t_1 \dots t_n)$ es un término.
+    \end{itemize}
+    
+    \item \textbf{Frases bien formadas:} Hay cuatro formas de construir frases bien formadas.
+    \begin{itemize}
+        \item Si $A_i^n$ es un predicado y $t_1 \dots t_n$ son términos, entonces $A_i^n(t_1 \dots t_n)$ es una frase bien formada.
+        \item Si $A$ es una frase bien formada, entonces $(\neg A)$ es una frase bien formada.
+        \item Si $A,B$ son frases bien formadas, entonces $(A \to B)$ es una frase bien formada.
+        \item Si $x_i$ es una variable y $A$ es una frase bien formada, entonces $(\forall x_i) A$ es una frase bien formada.
+    \end{itemize}
+    
+    \item \textbf{Abreviaciones:} (Azúcar sintáctico)
+    \begin{itemize}
+        \item Si $A,B$ son frases bien formadas, entonces $A \wedge B = \neg (A \to \neg B)$.
+        \item Si $A,B$ son frases bien formadas, entonces $A \vee B = \neg A \to B$.
+        \item Si $x_i$ es una variable y $A$ es una frase bien formada, entonces $(\exists x_i) A = \neg (\forall x_i) (\neg A)$.
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Sea $A$ una frase bien formada y sea $(\forall x_i) B$ una subfrase de $A$. Decimos que
+\begin{itemize}
+    \item La subfrase $B$ es el \textit{ámbito} de $(\forall x_i)$ en $A$.
+    \item Las ocurrencias de $x_i$ en $(\forall x_i) B$ son \textit{restringidas} en $A$.
+    \item Las ocurrencias no restringidas de $x_i$ en $A$ son \textit{libres} en $A$.
+    \item Las ocurrencias de $x_i$ libres en $B$ son \textit{capturadas} por $(\forall x_i)$ en $A$.
+\end{itemize}
+\end{definition}
+
+\begin{motivation}
+Nuestro objetivo a largo plazo es construir un sistema deductivo basado en el lenguaje $\mathscr L$ y demostrar metateoremas análogos a los que demostramos para $L$. Sin embargo, aún no estamos listos para enunciar los axiomas y las reglas de deducción de este sistema.
+
+En el sistema deductivo que queremos construir, la operación sintáctica más fundamental será sustituir todas las ocurrencias libres de una variable $x_i$ en una frase $A$ con un término $t$. En principio, nada impide que hagamos tales sustituciones indiscriminadamente. Sin embargo, para que estas sustituciones tengan el sigificado que queremos, necesitamos que se cumpla la siguiente condición.
+\end{motivation}
+
+\begin{definition}
+El término $t$ es \textit{libre} para $x_i$ en la frase $A$ si $x_i$ no ocurre [libre en $A$] dentro del ámbito de un cuantificador $(\forall x_j)$, donde $x_j$ es una variable que ocurre en $t$.
+\end{definition}
+
+\begin{remark}
+Esta definición es lingüísticamente un desastre. Expresemos la definición como un algoritmo para facilitar su comprensión.
+\end{remark}
+
+\begin{algorithm}
+\leavevmode
+\begin{enumerate}
+    \item Identificar las variables $x_j$ que ocurren en $t$.
+    \item Para cada $x_j$, identificar las ocurrencias de $(\forall x_j)$ en $A$.
+    \item Para cada $(\forall x_j)$, identificar las ocurrencias de $x_i$ en el ámbito de $(\forall x_j)$.
+    \item $t$ es libre para $x_i$ en $A$ si y sólo si ninguna ocurrencia identificada de $x_i$ es libre en $A$.
+\end{enumerate}
+\end{algorithm}
+
+\begin{remark}
+Toda variable es libre para sí misma en cualquier frase.
+\end{remark}
+
+\setcounter{exercise}{3}
+\begin{exercise}
+Sea $\mathscr L$ un lenguaje de primer orden sin funciones. Describa los términos de $\mathscr L$.
+\end{exercise}
+
+\begin{solution}
+Los términos de $\mathscr L$ son las variables y las constantes.
+\end{solution}
+
+\begin{exercise}
+Sea $\mathscr L$ un lenguaje de primer orden con símbolos $f_1^1, A_i^n$. Describa los términos de $\mathscr L$.
+\end{exercise}
+
+\begin{solution}
+Un término de $\mathscr L$ es la aplicación de $f_1^1$ un número natural de veces a alguna variable $x_i$.
+\end{solution}
+
+\begin{exercise}
+¿Cuáles de las siguientes son frases bien formadas?
+\end{exercise}
+
+\begin{enumerate}[(a)]
+    \item $A_1^2(f_1^1(x_1), x_1)$
+    \begin{solution}
+    Sí.
+    \end{solution}
+    
+    \item $f_1^3(x_1, x_3, x_4)$
+    \begin{solution}
+    No, es un término.
+    \end{solution}
+    
+    \item $A_1^1(x_2) \to A_1^3(x_3, a_1)$
+    \begin{solution}
+    No, $A_1^3$ debe tomar 3 argumentos.
+    \end{solution}
+
+    \item $\neg (\forall x_2) \, A_1^2(x_1, x_2)$
+    \begin{solution}
+    Sí.
+    \end{solution}
+
+    \item $(\forall x_2) \, A_1^1(x_1) \to \neg A_1^1(x_2)$
+    \begin{solution}
+    Sí.
+    \end{solution}
+
+    \item $A_1^3(f_2^3(x_1, x_2, x_3))$
+    \begin{solution}
+    No, $A_1^3$ debe tomar 3 argumentos.
+    \end{solution}
+
+    \item $\neg A_1^1(x_1) \to A_1^1(x_2)$
+    \begin{solution}
+    Sí.
+    \end{solution}
+
+    \item $(\forall x_1) \, A_1^3(a_1, a_2, f_1^1(a_3))$
+    \begin{solution}
+    Sí.
+    \end{solution}
+\end{enumerate}
+
+\begin{exercise}
+¿Cuáles ocurrencias de $x_1$ en las siguientes frases son libres y cuáles son restringidas?
+\end{exercise}
+
+\begin{enumerate}[(a)]
+    \item $(\forall x_2) \, A_1^2(x_1, x_2) \to A_1^2(x_2, a_1)$
+    \begin{solution}
+    La única ocurrencia es libre.
+    \end{solution}
+    
+    \item $A_1^1(x_3) \to \neg (\forall x_1) (\forall x_2) \, A_1^3(x_1, x_2, a_1)$
+    \begin{solution}
+    La única ocurrencia es restringida.
+    \end{solution}
+    
+    \item $(\forall x_1) \, A_1^1(x_1) \to (\forall x_2) \, A_1^2(x_1, x_2)$
+    \begin{solution}
+    Las ocurr. en el antecedente son restringidas. La ocurr. en el consecuente es libre.
+    \end{solution}
+    
+    \item $(\forall x_2) \, A_1^2(f_1^2(x_1, x_2), x_1) \to (\forall x_1) \, A_2^2(x_3, f_2^2(x_1, x_2))$
+    \begin{solution}
+    Las ocurr. en el antecedente son libres. Las ocurr. en el consecuente son restringidas.
+    \end{solution}
+\end{enumerate}
+
+\begin{notation}
+Sean $t,s$ dos términos y sea $A$ una frase bien formada.
+\begin{itemize}
+    \item Denotaremos por $t[x_i \mapsto s]$ el resultado de sustituir las ocurrencias de $x_i$ en $t$ con $s$.
+    \item Denotaremos por $A[x_i \mapsto s]$ el resultado de sustituir las ocurrencias \textit{libres} de $x_i$ en $A$ con $s$.
+\end{itemize}
+\end{notation}
+
+\begin{exercise}
+Sea $A$ una frase bien formada y sea $x_j$ una variable que no ocurre libre en $A$. Pruebe que, si $x_j$ es libre para $x_i$ en $A$, entonces $x_i$ es libre para $x_j$ en $A[x_i \mapsto x_j]$.
+\end{exercise}
+
+\begin{solution}
+Abreviaremos $[x_i \mapsto x_j]$ como un apóstrofe. Por inducción estructural en $A$:
+
+\begin{itemize}
+    \item Si $A = A_i^n(t_1 \dots t_n)$:
+    \begin{itemize}
+        \item $A' = A_i^n(t_1' \dots t_n')$ no contiene cuantificadores.
+        \item Cualquier término es libre para cualquier variable en $A'$.
+    \end{itemize}
+    
+    \item Si $A = \neg B$:
+    \begin{itemize}
+        \item $x_j$ no ocurre libre en $B$.
+        \item $x_j$ es libre para $x_i$ en $B$.
+        \item $x_i$ es libre para $x_j$ en $B'$, por hipótesis inductiva.
+        \item $x_i$ es libre para $x_j$ en $A' = \neg B'$.
+    \end{itemize}
+    
+    \item Si $A = B \to C$:
+    \begin{itemize}
+        \item $x_j$ no ocurre libre ni en $B$ ni en $C$.
+        \item $x_j$ es libre para $x_i$ tanto en $B$ como en $C$.
+        \item $x_i$ es libre para $x_j$ tanto en $B'$ como en $C'$, por hipótesis inductiva.
+        \item $x_i$ es libre para $x_j$ en $A' = B' \to C'$.
+    \end{itemize}
+    
+    \item Si $A = (\forall x_i) B$:
+    \begin{itemize}
+        \item $x_i$ no ocurre en $B$ libre en $A$, por la presencia de $(\forall x_i)$.
+        \item $x_j$ no ocurre en $B$ libre en $A$, por hipótesis.
+        \item Cualquier término es libre para $x_j$ en $A' = A$.
+    \end{itemize}
+    
+    \item Si $A = (\forall x_j) B$ con $j \ne i$:
+    \begin{itemize}
+        \item $x_i$ no ocurre en $B$ libre en $A$, porque $x_j$ es libre para $x_i$ en $A$.
+        \item $x_j$ no ocurre en $B$ libre en $A$, por la presencia de $(\forall x_j)$.
+        \item Cualquier término es libre para $x_j$ en $A' = A$.
+    \end{itemize}
+    
+    \item Si $A = (\forall x_k) B$, con $k \ne i,j$:
+    \begin{itemize}
+        \item $x_j$ no ocurre libre en $B$, porque $k \ne j$.
+        \item $x_j$ es libre para $x_i$ en $B$, porque $k \ne i$.
+        \item $x_i$ es libre para $x_j$ en $B'$, por hipótesis inductiva.
+        \item $x_i$ es libre para $x_j$ en $A' = (\forall x_k) B'$, porque $k \ne i,j$.
+    \end{itemize}
+\end{itemize}
+\end{solution}
+
+\begin{exercise}
+En cada caso, sea $A$ la frase dada y sea $t = f_1^2(x_1, x_3)$. Escriba la frase $A[x_1 \mapsto t]$ y decida si el término $t$ es libre para $x_1$ en $A$.
+\end{exercise}
+
+\begin{enumerate}[(a)]
+    \item $A = (\forall x_2) \, A_1^2(x_2, f_1^2(x_1, x_2)) \to A_1^1(x_1)$
+    \begin{solution}
+    \leavevmode
+    \begin{itemize}
+        \item $A' = (\forall x_2) \, A_1^2(x_2, f_1^2(f_1^2(x_1, x_3), x_2)) \to A_1^1(f_1^2(x_1, x_3))$
+        \item $t$ es libre para $x_1$ en $A$, porque no hay cuantificadores $(\forall x_3)$ en $A$.
+    \end{itemize}
+    \end{solution}
+    
+    \item $A = (\forall x_1) (\forall x_3) \, (A_1^1(x_3) \to A_1^1(x_1))$
+    \begin{solution}
+    \leavevmode
+    \begin{itemize}
+        \item $A' = A$, porque $x_1$ no aparece libre en $A$.
+        \item $t$ es libre para $x_1$ en $A$, porque $x_1$ no aparece libre en $A$.
+    \end{itemize}
+    \end{solution}
+    
+    \item $A = (\forall x_2) \, A_1^1(f_1^1(x_2)) \to (\forall x_3) \, A_1^3(x_1, x_2, x_3)$
+    \begin{solution}
+    \leavevmode
+    \begin{itemize}
+        \item $A' = (\forall x_2) \, A_1^1(f_1^1(x_2)) \to (\forall x_3) \, A_1^3(f_1^2(x_1, x_3), x_2, x_3)$
+        \item $t$ no es libre para $x_1$ en $A$, porque $x_1$ aparece libre en $A$ en el ámbito de $(\forall x_3)$.
+    \end{itemize}
+    \end{solution}
+    
+    \item $A = (\forall x_2) \, (A_1^2(f_1^2(x_1, x_2), x_1) \to (\forall x_3) \, A_2^2(x_3, f_2^2(x_1, x_2)))$
+    \begin{solution}
+    \leavevmode
+    \begin{itemize}
+        \item $A' = (\forall x_2) \, (A_1^2(f_1^2(f_1^2(x_1, x_3), x_2), x_1) \to (\forall x_3) \, A_2^2(x_3, f_2^2(f_1^2(x_1, x_3), x_2)))$
+        \item $t$ no es libre para $x_1$ en $A$, porque $x_1$ aparece libre en $A$ en el ámbito de $(\forall x_3)$.
+    \end{itemize}
+    \end{solution}
+\end{enumerate}

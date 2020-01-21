@@ -1,0 +1,213 @@
+\chapter{Lema de sustitución}
+
+\begin{preliminaries}
+En este capítulo demostraremos dos proposiciones de la siguiente forma:
+
+\begin{quote}
+Sean $A, A'$ frases bien formadas ``parecidas'' y sean $v, v' : \mathscr T \to D_I$ valoraciones ``análogas'' con respecto a las variables libres en $A, A'$. Entonces $v$ satisface $A$ si y sólo si $v'$ satisface $A'$.
+\end{quote}
+
+Sabemos por experiencia que una proposición de este tipo se demuestra por inducción estructural en la frase $A$. Sin embargo, podemos tener dificultades si no escogemos la hipótesis inductiva con cuidado. Para ilustrar la situación con un ejemplo, supongamos que nuestra hipótesis inductiva es
+
+\begin{quote}
+Sean $B, B'$ subfrases ``parecidas'' de $A, A'$, respectivamente. Además, supongamos que $v, v'$ son ``análogas'' respecto a las variables libres en $B, B'$. Entonces $v$ sat. $B$ si y sólo $v'$ sat. $B$.
+\end{quote}
+
+Esta hipótesis inductiva es suficiente para demostrar los casos $A = \neg B$ y $A = B \to C$. Sin embargo, no es suficiente para demostrar el caso $A = (\forall x_i) B$. El problema es que $v$ satisface $A$ si y sólo si todo $w \in [v]_i$ satisface $B$, más las versiones primadas. Nuestra hipótesis inductiva no dice nada sobre $w, w'$.
+
+La hipótesis inductiva correcta es
+
+\begin{quote}
+Sean $B, B'$ subfrases ``parecidas'' de $A, A'$, respectivamente. Sean $w, w' : \mathscr T \to D_I$ valoraciones ``análogas'' respecto a las variables libres en $B, B'$. Entonces $w$ sat. $B$ si y sólo si $w'$ sat. $B$.
+\end{quote}
+
+Incluso si tenemos la hipótesis inductiva correcta, podemos tener problemas si no sabemos utilizarla de la forma correcta. El problema es que, aunque $x_i$ no ocurre libre en $A = (\forall x_i) B$, puede ocurrir libre en $B$. No podemos esperar que dos valoraciones arbitrarias $w \in [v]_i$ y $w' \in [v']_i$ sean ``análogas'' respecto a $x_i$.
+
+Para superar este obstáculo, debemos tomar las valoraciones $v_b \in [v]_i$ y $v_b' \in [v']_i$ correspondientes a un mismo elemento $b \in D_I$. Entonces $v_b, v_b'$ son ``análogas'' respecto a $x_i$, más las variables que ocurren libres en $A, A'$. Por supuesto, éstas son todas las variables que pueden ocurrir libres en $B, B'$.
+\end{preliminaries}
+
+\begin{motivation}
+Una vez fijada una interpretación, es de esperar que el significado de un término o una frase bien formada sólo dependa de las variables que ocurren (libres) en él.
+\end{motivation}
+
+\begin{definition}
+Dos valoraciones $v, w : \mathscr T \to D_I$ \textit{coinciden} en la variable $x_i$ si $v(x_i) = w(x_i)$.
+\end{definition}
+
+\begin{proposition}
+(Lema de coincidencia) Si dos valoraciones $v, w : \mathscr T \to D_I$ coinciden en...
+
+\begin{itemize}
+    \item Las variables que ocurren en un término $t$, entonces $v(t) = w(t)$.
+    \item Las variables que ocurren libres en una frase $A$, entonces $v$ sat. $A$ si y sólo si $w$ sat. $A$.
+\end{itemize}
+\end{proposition}
+
+\begin{prove}
+Por inducción estructural en el término $t$:
+
+\begin{itemize}
+    \item Si $t = x_i$:
+    \begin{itemize}
+        \item $v(x_i) = w(x_i)$, por hipótesis de este lema.
+    \end{itemize}
+    
+    \item Si $t = a_i$:
+    \begin{itemize}
+        \item $v(a_i) = w(a_i) = \bar a_i$, por definición de valoración.
+    \end{itemize}
+    
+    \item Si $t = f_i^n(t_1 \dots t_n)$:
+    \begin{itemize}
+        \item $v(t_k) = w(t_k) = v_k$ para cada $k = 1 \dots n$, por hipótesis inductiva.
+        \item $v(t) = w(t) = \bar f_i^n(v_1 \dots v_k)$, por definición de valoración.
+    \end{itemize}
+\end{itemize}
+\end{prove}
+
+\begin{prove}
+Por inducción estructural en la frase $A$:
+
+\begin{itemize}
+    \item Si $A = A_i^n(t_1 \dots t_n)$:
+    \begin{itemize}
+        \item $v(t_k) = w(t_k) = v_k$ para cada $k = 1 \dots n$, por hipótesis inductiva.
+        \item $v$ satisface $A$ $\iff$ $w$ satisface $A$ $\iff$ $\bar A_i^n(v_1 \dots v_k)$ se cumple.
+    \end{itemize}
+    
+    \item Si $A = \neg B$:
+    \begin{itemize}
+        \item $v$ satisface $B$ $\iff$ $w$ satisface $B$, por hipótesis inductiva.
+        \item $v$ satisface $A$ $\iff$ $w$ satisface $A$.
+    \end{itemize}
+    
+    \item Si $A = B \to C$:
+    \begin{itemize}
+        \item $v$ satisface $B$ $\iff$ $w$ satisface $B$, por hipótesis inductiva.
+        \item $v$ satisface $C$ $\iff$ $w$ satisface $C$, por hipótesis inductiva.
+        \item $v$ satisface $A$ $\iff$ $w$ satisface $A$.
+    \end{itemize}
+    
+    \item Si $A = (\forall x_i) B$:
+    \begin{itemize}
+        \item $v_b$ satisface $B$ $\iff$ $w_b$ satisface $B$, para todo $b \in D_I$, por hipótesis inductiva.
+        \item $v$ satisface $A$ $\iff$ $w$ satisface $A$.
+    \end{itemize}
+\end{itemize}
+\end{prove}
+
+\begin{motivation}
+En un sistema deductivo formal, como el que pretendemos construir sobre la sintaxis de $\mathscr L$, las variables existen para ser sustituidas con otros términos. Naturalmente, cuando sustituimos $[x_i \mapsto t]$, la intención es que el nuevo significado de $x_i$ sea igual al significado antiguo de $t$. En este caso decimos que la operación de sustitución es \textit{bien comportada}.
+
+Recordemos que nuestra definición de ``$t$ es libre para $x_i$ en $A$'' es ``lingüísticamente un desastre''. ¿Por que nos hemos autoflagelado con esta monstruosidad? La respuesta, justificada en el siguiente lema, es que la condición ``$t$ es libre para $x_i$ en $A$'' garantiza que la sustitución $A[x_i \mapsto t]$ sea bien comportada.
+\end{motivation}
+
+\begin{proposition}
+(Lema de sustitución) Sean $s$ un término, $v : \mathscr T_I \to D_I$ una valoración cualquiera, $w \in [v]_i$ tal que $w(x_i) = v(s)$, y denotemos la sustitución $[x_i \mapsto s]$ por un apóstrofe.
+
+\begin{itemize}
+    \item Si $t$ es cualquier término, entonces $w(t) = v(t')$.
+    \item Si $s$ es libre para $x_i$ en una frase $A$, entonces $w$ satisface $A$ si y sólo si $v$ satisface $A'$.
+\end{itemize}
+\end{proposition}
+
+\begin{prove}
+Por inducción estructural en el término $t$:
+
+\begin{itemize}
+    \item Si $t = x_i$:
+    \begin{itemize}
+        \item $w(x_i) = v(s)$, por hipótesis de este lema.
+    \end{itemize}
+    
+    \item Si $t = x_j$ con $j \ne i$:
+    \begin{itemize}
+        \item $w(x_j) = v(x_j)$, por $i$-equivalencia.
+    \end{itemize}
+    
+    \item Si $t = a_j$:
+    \begin{itemize}
+        \item $w(a_j) = v(a_j) = \bar a_j$, por definición de valoración.
+    \end{itemize}
+    
+    \item Si $t = f_i^n(t_1 \dots t_n)$:
+    \begin{itemize}
+        \item $w(t_k) = v(t_k') = v_k$ para $k = 1 \dots n$, por hipótesis inductiva.
+        \item $w(t) = v(t') = \bar f_i^n(v_1 \dots v_n)$, por definición de valoración.
+    \end{itemize}
+\end{itemize}
+\end{prove}
+
+\begin{prove}
+Por inducción estructural en la frase $A$:
+
+\begin{itemize}
+    \item Si $A = A_i^n(t_1 \dots t_n)$:
+    \begin{itemize}
+        \item $w(t_k) = v(t_k') = v_k$ para $k = 1 \dots n$, por hipótesis inductiva.
+        \item $w$ satisface $A$ $\iff$ $v$ satisface $A'$ $\iff$ $\bar A_i^n(v_1 \dots v_n)$ se cumple.
+    \end{itemize}
+    
+    \item Si $A = \neg B$:
+    \begin{itemize}
+        \item $w$ satisface $B$ $\iff$ $v$ satisface $B'$, por hipótesis inductiva.
+        \item $w$ satisface $A$ $\iff$ $v$ satisface $A'$.
+    \end{itemize}
+    
+    \item Si $A = B \to C$:
+    \begin{itemize}
+        \item $w$ satisface $B$ $\iff$ $v$ satisface $B'$, por hipótesis inductiva.
+        \item $w$ satisface $C$ $\iff$ $v$ satisface $C'$, por hipótesis inductiva.
+        \item $w$ satisface $A$ $\iff$ $v$ satisface $A'$.
+    \end{itemize}
+    
+    \item Si $A = (\forall x_i) B$:
+    \begin{itemize}
+        \item $A' = A$, porque $x_i$ no aparece libre en $A$.
+        \item $w_b = v_b \in [w]_i = [v]_i$, porque $w \in [v]_i$.
+        \item $v_b$ satisface $B$ $\iff$ $v_b$ satisface $B$, para todo $b \in D_I$, trivialmente.
+        \item $w$ satisface $A$ $\iff$ $v$ satisface $A$.
+    \end{itemize}
+    
+    \item Si $A = (\forall x_j) B$ con $j \ne i$:
+    \begin{itemize}
+        \item $A' = (\forall x_j) B'$, porque $(\forall x_j)$ no captura las ocurrencias de $x_i$ libres en $B$.
+        \item $w_b \in [w]_j$ y $v_b \in [w]_j$ son $i$-equivalentes.
+        \item $t$ es libre para $x_i$ en $A$, por ende tenemos dos posibilidades:
+        \begin{itemize}
+            \item Si $x_i$ no ocurre libre en $B$:
+            \begin{itemize}
+                \item $B' = B$, porque $x_i$ no ocurre libre en $B$.
+                \item $w_b$ satisface $B$ $\iff$ $v_b$ satisface $B$, por el lema de coincidencia.
+            \end{itemize}
+            
+            \item Si $x_j$ no ocurre en $t$:
+            \begin{itemize}
+                \item $w_b(x_i) = w(x_i)$, por $j$-equivalencia.
+                \item $w(x_i) = v(t)$, por hipótesis de este lema.
+                \item $v(t) = v_b(t)$, por el lema de coincidencia.
+                \item $w_b$ satisface $B$ $\iff$ $v_b$ satisface $B'$, por hipótesis inductiva.
+            \end{itemize}
+        \end{itemize}
+        \item $w_b$ satisface $B$ $\iff$ $v_b$ satisface $B'$, para todo $b \in D_I$, en ambos casos.
+        \item $w$ satisface $A$ $\iff$ $v$ satisface $A'$.
+    \end{itemize}
+\end{itemize}
+\end{prove}
+
+\begin{reflection}
+El lema de sustitución es, de lejos, el resultado técnicamente más difícil que hemos visto hasta este momento. Para siquiera enunciarlo, hemos definido el concepto aparentemente artificial de ``$t$ es libre para $x_i$ en $A$''. Para demostrarlo, hemos reexaminado cómo se formula y utiliza una hipótesis inductiva.
+
+Sin embargo, no podemos dejar de enfatizar la importancia del lema de sustitución. Sin este lema, una sustitución es una mera manipulación sintáctica sin sentido. Es sólo en virtud de este lema que se justifica nuestra intención de utilizar la operación de sustitución como ingrediente fundamental de la definición del cálculo de predicados de primer orden.
+
+Si usted ha comprendido a cabilidad la demostración del lema de deducción, ¡enhorabuena! Relájese y disfrute la cosecha de resultados triviales en los dos últimos capítulos.
+\end{reflection}
+
+\setcounter{exercise}{22}
+\begin{exercise}
+Sea $A$ una frase bien formada y sea $t$ un término que es libre para $x_i$ en $A$. Muestre que, si $v : \mathscr T \to D_I$ es una valoración tal que $v(x_i) = v(t)$, entonces $v$ satisface $A$ si y sólo si satisface $A[x_i \mapsto t]$.
+\end{exercise}
+
+\begin{solution}
+Es un caso particular del lema de sustitución para $w = v$.
+\end{solution}

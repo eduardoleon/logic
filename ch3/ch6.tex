@@ -1,0 +1,146 @@
+\chapter{Tautologías y validez lógica}
+
+\begin{notation}
+Denotaremos por $L$ y $\mathscr L$ sus propios conjuntos de frases bien formadas.
+\end{notation}
+
+\begin{definition}
+Una \textit{sustitución de frases} es una función $\sigma : L \to \mathscr L$ tal que
+\begin{itemize}
+    \item $\sigma(\neg A) = \neg \sigma(A)$
+    \item $\sigma(A \to B) = \sigma(A) \to \sigma(B)$
+\end{itemize}
+\end{definition}
+
+\begin{remarks}
+Supongamos que queremos construir una sustitución de frases $\sigma : L \to \mathscr L$.
+\begin{itemize}
+    \item Las frases $\sigma(p_i)$ para cada $i \in \mathbb N$ pueden ser escogidas arbitrariamente.
+    \item Las frases $\sigma(p_i)$ para todo $i \in \mathbb N$ determinan completamente la sustitución $\sigma$.
+\end{itemize}
+\end{remarks}
+
+\begin{definition}
+Sea $A$ una frase bien formada de $L$ y sea $\sigma : L \to \mathscr L$ una sustitución de frases.
+\begin{itemize}
+    \item Decimos que $\sigma(A)$ es una \textit{instancia de sustitución} de $A$.
+    \item Decimos que $\sigma(A)$ es una \textit{tautología} de $\mathscr L$ si $A$ es una tautología de $L$.
+\end{itemize}
+\end{definition}
+
+\begin{proposition}
+Toda tautología de $\mathscr L$ es verdadera en cualquier interpretación $I$ de $\mathscr L$.
+\end{proposition}
+
+\begin{proof}
+Sea $\sigma : L \to \mathscr L$ una sustitución de frases y sea $v : \mathscr T \to D_I$ una valoración en $I$. Definamos la función $w : L \to \{ V, F \}$ por la regla de correspondencia
+$$
+w(A) =
+\begin{cases}
+    V & \text{si } v \text{ satisface } \sigma(A) \\
+    F & \text{si } v \text{ no satisface } \sigma(A)
+\end{cases}
+$$
+
+Por construcción, $w$ es una valoración en $L$. Si $A$ es una tautología de $L$, entonces $w(A) = V$, por ende $v$ satisface $\sigma(A)$. Generalizando las valoraciones, $\sigma(A)$ es verdadera en $I$.
+\end{proof}
+
+\begin{definition}
+\leavevmode
+\begin{itemize}
+    \item Decimos que una frase es \textit{lógicamente válida} si es verdadera en cualquier interpretación.
+    \item Decimos que una frase es una \textit{contradicción} si es falsa en cualquier interpretación.
+\end{itemize}
+\end{definition}
+
+\begin{remarks}
+\leavevmode
+\begin{itemize}
+    \item Toda tautología de $\mathscr L$ es lógicamente válida.
+    \item Si $A$ y $A \to B$ son lógicamente válidas, entonces $B$ también lo es.
+    \item Si $A$ es lógicamente válida, entonces $(\forall x_i) A$ también lo es.
+    \item Si queremos demostrar que una frase $A$ \textit{no} es lógicamente válida, necesitamos ingenio para construir una interpretación $I$ y una valoración $v : \mathscr T \to D_I$ que no satisface $A$.
+\end{itemize}
+\end{remarks}
+
+\begin{exercise}
+Muestre que cada una de las siguientes frases es lógicamente válida.
+\end{exercise}
+
+\begin{remark}
+Fijemos una interpretación arbitraria $I$.
+\end{remark}
+
+\begin{enumerate}[(a)]
+    \item $(\exists x_1) (\forall x_2) \, A_1^2(x_1, x_2) \to (\forall x_2) (\exists x_1) \, A_1^2(x_1, x_2)$
+    \begin{solution}
+    Abreviemos $E = (\exists x_1)$, $F = (\forall x_2)$ y $A = A_1^2(x_1, x_2)$ por conveniencia.
+    
+    Supongamos que $v : \mathscr T \to D_I$ satisface $EFA$. Existe $v' \in [v]_1$ que satisface $FA$. Sea $w \in [v]_2$ arbitraria y sea $w' \in [w]_1$ el único con $w'(x_1) = v'(x_1)$. Por el lema de coincidencia, $w'$ satisface $FA$, por ende $w'$ satisface $A$, por ende $w$ satisface $EA$, por ende $v$ satisface $FEA$.
+    \end{solution}
+    
+    \item $(\forall x_1) \, A_1^1(x_1) \to ((\forall x_1) \, A_2^1(x_1) \to (\forall x_2) \, A_1^1(x_2))$
+    \begin{solution}
+    Abreviemos $F_i = (\forall x_i)$ y $A_i = A_1^1(x_i)$ por conveniencia.
+    
+    Supongamos que $v : \mathscr T \to D_I$ satisface $F_1 A_1$. Todo $v_b \in [v]_1$ satisface $A_1$. Por el lema de sustitución, todo $v_b \in [v]_2$ satisface $A_2$. Por ende $v$ satisface $F_2 A_2$.
+    \end{solution}
+    
+    \item $(\forall x_1)(A \to B) \to ((\forall x_1) A \to (\forall x_1) B)$
+    \begin{solution}
+    Abreviemos $F = (\forall x_1)$ y $C = A \to B$ por conveniencia.
+    
+    Supongamos que $v : \mathscr T \to D_I$ satisface $FC$ y $FA$. Todo $w \in [v]_1$ satisface $C$ y $A$, por ende también $B$. Por ende $v$ satisface $FB$.
+    \end{solution}
+    
+    \item $(\forall x_1) (\forall x_2) A \to (\forall x_2) (\forall x_1) A$
+    \begin{solution}
+    Dada una valoración $v : \mathscr T \to D_I$, sea $[v]_{ij}$ la unión de las clases $[w]_i$ con $w \in [v]_j$. Entonces todo $w \in [v]_{ij}$ está determinado por los valores de $w(x_i)$ y $w(x_j)$. Por ende $[v]_{ij} = [v]_{ji}$. Finalmente, $v$ satisface $(\forall x_1) (\forall x_2) A$, si y sólo si todo $w \in [v]_{12}$ satisface $A$, si y sólo si $v$ satisface $(\forall x_2) (\forall x_1) A$.
+    \end{solution}
+\end{enumerate}
+
+\begin{exercise}
+Dé un ejemplo de una frase bien formada lógicamente válida que no es cerrada.
+\end{exercise}
+
+\begin{solution}
+Cualquier tautología no cerrada de $\mathscr L$, por ejemplo $A_1^1(x_1) \to A_1^1(x_1)$.
+\end{solution}
+
+\begin{exercise}
+Muestre que, si el término $t$ es libre para $x_i$ en $A$, entonces la frase $A[x_i \mapsto t] \to (\exists x_i) \, A$ es lógicamente válida.
+\end{exercise}
+
+\begin{solution}
+Sea $v$ una valoración que satisface $A[x_i \mapsto t]$ y sea $b = v(t)$. Por el lema de sustitución, $v_b \in [v]_i$ satisface $A$. Por ende $v$ satisface $(\exists x_i) A$.
+\end{solution}
+
+\begin{exercise}
+Muestre que ninguna de las siguientes frases bien formadas es lógicamente válida.
+\end{exercise}
+
+\begin{remark}
+En todos los casos, el dominio debe tener al menos dos elementos.
+\end{remark}
+
+\begin{enumerate}[(a)]
+    \item $(\forall x_1) (\exists x_2) \, A_1^2(x_1, x_2) \to (\exists x_2) (\forall x_1) \, A_1^2(x_1, x_2)$
+    \begin{solution}
+    Sea $\bar A_1^2$ la relación de igualdad.
+    \end{solution}
+    
+    \item $(\forall x_1) (\forall x_2) \, [A_1^2(x_1, x_2) \to A_1^2(x_2, x_1)]$
+    \begin{solution}
+    Sea $\bar A_1^2$ una relación de orden total.
+    \end{solution}
+    
+    \item $(\forall x_1) \, [\neg A_1^1(x_1) \to \neg A_1^1(a_1)]$
+    \begin{solution}
+    Sea $\bar A_1^1(x)$ verdadero si y sólo si $x = \bar a_1$.
+    \end{solution}
+    
+    \item $(\forall x_1) \, A_1^2(x_1, x_1) \to (\exists x_2) (\forall x_1) \, A_1^2(x_1, x_2)$
+    \begin{solution}
+    Sea $\bar A_1^2$ la relación de igualdad.
+    \end{solution}
+\end{enumerate}

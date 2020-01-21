@@ -1,0 +1,150 @@
+\chapter{Veracidad}
+
+\begin{preliminaries}
+En este capítulo, sean $A, B$ frases bien formadas y sea $I$ una interpretación de $\mathscr L$.
+\end{preliminaries}
+
+\begin{definition}
+\leavevmode
+\begin{itemize}
+    \item Decimos que $A$ es \textit{verdadera} en $I$ si toda valoración en $I$ satisface $A$.
+    \item Decimos que $A$ es \textit{falsa} en $I$ si ninguna valoración en $I$ satisface $A$.
+\end{itemize}
+\end{definition}
+
+\begin{remarks}
+\leavevmode
+\begin{itemize}
+    \item $A$ puede no ser ni verdadera ni falsa en $I$.
+    \item $A$ no puede ser simultáneamente verdadera y falsa en $I$.
+    \item $A$ es falsa en $I$ $\iff$ $\neg A$ es verdadera en $I$.
+    \item $A \to B$ es falsa en $I$ $\iff$ $A$ es verdadera y $B$ es falsa en $I$.
+\end{itemize}
+\end{remarks}
+
+\begin{notation}
+Escribiremos $I \vDash$ para decir que $A$ es verdadera en $I$.
+\end{notation}
+
+\begin{remark}
+No debemos confundir
+\begin{itemize}
+    \item $\Gamma \vdash A$, un enunciado sobre la \textit{demostrabilidad} de $A$.
+    \item $I \vDash A$, un enunciado sobre la \textit{veracidad} de $A$.
+\end{itemize}
+\end{remark}
+
+\begin{proposition}
+Si $I \vDash A$ e $I \vDash A \to B$, entonces $I \vDash B$.
+\end{proposition}
+
+\begin{proof}
+Sea $v : \mathscr T \to D_I$ una valoración en $I$. Entonces $v$ satisface tanto $A$ como $A \to B$. Por ende $v$ satisface $B$. Generalizando la valoración, $B$ es verdadera en $I$.
+\end{proof}
+
+\begin{proposition}
+Para toda variable $x_i$, tenemos $I \vDash A$ si y sólo si $I \vDash (\forall x_i) A$.
+\end{proposition}
+
+\begin{proof}
+Sea $\mathscr V$ el conjunto de todas las valoraciones en $I$. Notemos que $[v]_i \subset \mathscr V$, para todo $v \in \mathscr V$. Por ende, si todo $v \in \mathscr V$ satisface $A$, entonces todo $v \in \mathscr V$ satisface $(\forall x_i) A$.
+
+Conversamente, si $v \in \mathscr V$ satisface $(\forall x_i) A$, entonces todo $w \in [v]_i$ satisface $A$. En particular, $v \in [v]_i$ de manera tautológica. Por ende, $v$ también satisface $A$.
+\end{proof}
+
+\begin{corollary}
+Sean $y_1 \dots y_n$ variables de $\mathscr L$. Entonces $I \vDash A$ si y sólo si $I \vDash (\forall y_1) \dots (\forall y_n) A$.
+\end{corollary}
+
+\begin{proof}
+Aplicar la proposición anterior $n$ veces.
+\end{proof}
+
+\begin{proposition}
+Una valoración $v : \mathscr T \to D_I$ satisface $(\exists x_i) A$ si y sólo si existe $w \in [v]_i$ que satisface $A$.
+\end{proposition}
+
+\begin{proof}
+Por una cadena de silogismos: $v$ satisface $(\exists x_i) A$, si y sólo si $v$ no satisface $(\forall x_i) (\neg A)$, si y sólo si no todo $w \in [v]_i$ satisface $\neg A$, si y sólo si algún $w \in [v]_i$ satisface $A$.
+\end{proof}
+
+\begin{definition}
+Decimos que $A$ es \textit{cerrada} si ninguna variable ocurre libre en $A$.
+\end{definition}
+
+\begin{proposition}
+Si $A$ es cerrada, entonces o bien $I \vDash A$ o bien $I \vDash \neg A$.
+\end{proposition}
+
+\begin{proof}
+Todo par de valoraciones $v, w : \mathscr T \to D_I$ coincide en las variables libres de $A$, i.e., ninguna. Por el lema de coincidencia, $v$ satisface $A$ si y sólo si $w$ satisface $A$.
+\end{proof}
+
+\setcounter{exercise}{15}
+\begin{exercise}
+¿Cuales de las siguientes frases cerradas son verdaderas o falsas en la intepretación $N$ dada en el capítulo 2?
+\end{exercise}
+
+\begin{remark}
+Recordemos que $D_N = \mathbb N$ y los símbolos se interpretan de la siguiente manera: $\bar a_1$ es cero, $\bar f_1^2$ es la adición, $\bar f_2^2$ es la multiplicación y $\bar A_1^2$ es la relación de igualdad.
+\end{remark}
+
+\begin{enumerate}[(a)]
+    \item $(\forall x_1) \, A_1^2(f_2^2(x_1, a_1), x_1)$
+    \begin{solution}
+    Para todo $x_1 \in \mathbb N$, son iguales $0x_1$ y $x_1$. Falso.
+    \end{solution}
+    
+    \item $(\forall x_1) (\forall x_2) \, [A_1^2(f_1^2(x_1, a_1), x_2) \to A_1^2(f_1^2(x_2, a_1), x_1)]$
+    \begin{solution}
+    Para todo $x_1, x_2 \in \mathbb N$, si $x_1 + 0 = x_2$ entonces $x_2 + 0 = x_1$. Verdadero.
+    \end{solution}
+    
+    \item $(\forall x_1) (\forall x_2) (\exists x_3) \, A_1^2(f_1^2(x_1, x_2), x_3)$
+    \begin{solution}
+    Para todo $x_1, x_2 \in \mathbb N$, existe $x_3 \in \mathbb N$ tal que $x_1 + x_2 = x_3$. Verdadero.
+    \end{solution}
+    
+    \item $(\exists x_1) \, A_1^2(f_1^2(x_1, x_1), f_2^2(x_1, x_1))$
+    \begin{solution}
+    Existe $x_1 \in \mathbb N$ tal que $2x_1 = x_1^2$. Verdadero.
+    \end{solution}
+\end{enumerate}
+
+\begin{exercise}
+¿Cuales de las siguientes frases cerradas son verdaderas o falsas en la intepretación $I$ dada en el capítulo 2?
+\end{exercise}
+
+\begin{remark}
+Recordemos que $D_I = \mathbb Z$ y los símbolos se interpretan de la siguiente manera: $\bar a_1$ es cero, $\bar f_1^2$ es la sustracción y $\bar A_2^2$ es la relación ``menor que''.
+\end{remark}
+
+\begin{enumerate}[(a)]
+    \item $(\forall x_1) \, A_2^2(f_1^2(a_1, x_1), a_1)$
+    \begin{solution}
+    Para todo $x_1 \in \mathbb Z$, la diferencia $0 - x_1$ es menor que $0$. Falso.
+    \end{solution}
+    
+    \item $(\forall x_1) (\forall x_2) \, \neg A_2^2(f_1^2(x_1, x_2), x_1)$
+    \begin{solution}
+    Para todo $x_1, x_2 \in \mathbb Z$, la diferencia $x_1 - x_2$ es no menor que $x_1$. Falso
+    \end{solution}
+    
+    \item $(\forall x_1) (\forall x_2) (\forall x_3) \, [A_2^2(x_1, x_2) \to A_2^2(f_1^2(x_1, x_3), f_1^2(x_2, x_3))]$
+    \begin{solution}
+    Para todo $x_1, x_2, x_3 \in \mathbb Z$, si $x_1 < x_2$ entonces $x_1 - x_3 < x_2 - x_3$. Verdadero.
+    \end{solution}
+    
+    \item $(\forall x_1) (\exists x_2) \, A_2^2(x_1, f_1^2(f_1(x_1, x_2), x_2))$
+    \begin{solution}
+    Para todo $x_1 \in \mathbb N$, existe $x_2 \in \mathbb N$ tal que $x_1 < (x_1 - x_2) - x_2$. Verdadero.
+    \end{solution}
+\end{enumerate}
+
+\begin{exercise}
+Pruebe que $A \to B$ es falsa en $I$ si y sólo si $A$ es verdadera y $B$ es falsa en $I$.
+\end{exercise}
+
+\begin{solution}
+Por una cadena de silogismos: $A \to B$ es falsa en $I$, si y sólo si ninguna valoración en $I$ satisface $A \to B$, si y sólo si toda valoración en $I$ satisface $A$ pero ninguna satisface $B$, si y sólo si $A$ es verdadera y $B$ es falsa en $I$.
+\end{solution}

@@ -1,0 +1,213 @@
+\chapter{Definciones básicas}
+
+\begin{definition}
+El sistema formal $L$ consta de
+
+\begin{enumerate}
+    \item \textbf{Alfabeto:} Hay tres tipos de símbolos.
+    \begin{itemize}
+        \item \textit{Proposiciones atómicas:} $p_0, p_1, p_2 \dots$
+        \item \textit{Conectores:} $\neg$ (negación) y $\to$ (implicación)
+        \item \textit{Puntuación:} paréntesis de apertura y cierre
+    \end{itemize}
+    
+    \item \textbf{Frases bien formadas:} Hay tres formas de construir frases bien formadas.
+    \begin{itemize}
+        \item Toda proposición atómica $p_i$ es una frase bien formada.
+        \item Si $A$ es una frase bien formada, entonces $(\neg A)$ es una frase bien formada.
+        \item Si $A,B$ son frases bien formadas, entonces $(A \to B)$ es una frase bien formada.
+    \end{itemize}
+    
+    \begin{remark}
+    En la práctica, escribir todos los paréntesis resulta engorroso. Por ende, omitiremos los paréntesis que no sean necesarios para entender la estructura sintáctica de una frase bien formada.
+    \end{remark}
+    
+    \item \textbf{Axiomas:} Hay tres esquemas de axiomas.
+    \begin{itemize}
+        \item \textbf{L1:} $\La AB$
+        \item \textbf{L2:} $\Lb ABC$
+        \item \textbf{L3:} $\Lc AB$
+    \end{itemize}
+    
+    \item \textbf{Reglas de deducción:} Sólo hay una regla de deducción.
+    \begin{itemize}
+        \item \textit{Modus ponens:} $A, A \to B \therefore B$.
+    \end{itemize}
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Una \textit{demostración} en $L$ es una lista de frases bien formadas $A_1 \dots A_n$ tal que cada elemento $A_i$ es un axioma o se deduce de dos elementos anteriores.
+\end{definition}
+
+\begin{definition}
+Un \textit{teorema} de $L$ es una frase bien formada $B$ tal que existe una demostración $A_1 \dots A_n$ que concluye en $A_n = B$. Escribimos $\vdash_L B$.
+\end{definition}
+
+\begin{example}
+La frase bien formada $(p_1 \to p_2) \to (p_1 \to p_1)$ es un teorema de $L$.
+
+\begin{enumerate}
+    \item $\vdash_L \La        {p_2} {p_1}$ \hfill (L1)
+    \item $\vdash_L \Lb  {p_1} {p_2} {p_1}$ \hfill (L2)
+    \item $\vdash_L \Lbh {p_1} {p_2} {p_1}$ \hfill (MP en 1 y 2)
+\end{enumerate}
+\end{example}
+
+\newpage
+
+\begin{definition}
+Un \textit{contexto} es un conjunto de frases bien formadas, llamadas \textit{premisas}.
+\end{definition}
+
+\begin{definition}
+Sea $\Gamma$ un contexto. Una \textit{deducción} de $\Gamma$ es una lista de frases bien formadas $A_1 \dots A_n$ tales que cada elemento $A_i$ es un axioma, un miembro de $\Gamma$, o se deduce de dos elementos anteriores.
+\end{definition}
+
+\begin{definition}
+Sea $\Gamma$ un contexto. Una \textit{consecuencia} de $\Gamma$ es una frase bien formada $B$ tal que existe una deducción $A_1 \dots A_n$ que concluye en $A_n = B$. Escribimos $\Gamma \vdash_L B$.
+\end{definition}
+
+\begin{remark}
+Un teorema es una consecuencia del conjunto vacío.
+\end{remark}
+
+\begin{example}
+Sea $\Gamma = \{ A, B \to (A \to C) \}$. Entonces $\Gamma \vdash_L B \to C$.
+
+\begin{enumerate}
+    \item $\Gamma \vdash_L A$               \hfill (premisa)
+    \item $\Gamma \vdash_L \La BA$          \hfill (L1)
+    \item $\Gamma \vdash_L B \to A$         \hfill (MP en 1 y 2)
+    \item $\Gamma \vdash_L B \to (A \to C)$ \hfill (premisa)
+    \item $\Gamma \vdash_L \Lb  BAC$        \hfill (L2)
+    \item $\Gamma \vdash_L \Lbh ABC$        \hfill (MP en 4 y 5)
+    \item $\Gamma \vdash_L B \to C$         \hfill (MP en 3 y 6)
+\end{enumerate}
+\end{example}
+
+\begin{exercise}
+Escriba demostraciones en $L$ de las siguientes frases bien formadas.
+\end{exercise}
+
+\begin{enumerate}[(a)]
+    \item $(p_1 \to p_2) \to (\Lc {p_2} {p_1})$
+    \begin{solution}
+    Sean $A = p_1 \to p_2$ y $B = \Lc {p_2} {p_1}$.
+    \begin{enumerate}[1.]
+        \item $\vdash_L B$               \hfill (L3)
+        \item $\vdash_L B \to (A \to B)$ \hfill (L1)
+        \item $\vdash_L        A \to B$  \hfill (MP en 1 y 2)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $\Lbh {(p_1 \to (p_2 \to p_3))} {(p_1 \to p_2)} {(p_1 \to p_3)}$
+    \begin{solution}
+    Sean $A = p_1 \to (p_2 \to p_3)$, $B = p_1 \to p_2$ y $C = p_1 \to p_3$.
+    \begin{enumerate}[1.]
+        \item $\vdash_L A \to (B \to C)$ \hfill (L2)
+        \item $\vdash_L \Lb  ABC$        \hfill (L2)
+        \item $\vdash_L \Lbh ABC$        \hfill (MP en 1 y 2)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $(p_1 \to (p_1 \to p_2)) \to (p_1 \to p_2)$
+    \begin{solution}
+    Sean
+    \begin{itemize}
+        \item $A = \La {(p_1 \to p_1)} {p_1}$
+        \item $B = \La {p_1}           {p_1}$
+        \item $C = p_1 \to (p_1 \to p_2)$
+        \item $D = p_1 \to p_1$
+        \item $E = p_1 \to p_2$
+    \end{itemize}
+    
+    Deducimos
+    \begin{enumerate}[1.]
+        \item $\vdash_L B$               \hfill (L1)
+        \item $\vdash_L A$               \hfill (L1)
+        \item $\vdash_L A \to (B \to D)$ \hfill (L2)
+        \item $\vdash_L        B \to D$  \hfill (MP en 2 y 3)
+        \item $\vdash_L D$               \hfill (MP en 1 y 4)
+        \item $\vdash_L \La CD$          \hfill (L1)
+        \item $\vdash_L C \to D$         \hfill (MP en 5 y 6)
+        \item $\vdash_L C \to (D \to E)$ \hfill (L2)
+        \item $\vdash_L \Lb  CDE$        \hfill (L2)
+        \item $\vdash_L \Lbh CDE$        \hfill (MP en 8 y 9)
+        \item $\vdash_L C \to E$         \hfill (MP en 7 y 10)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $p_1 \to (\La {p_1} {p_2})$
+    \begin{solution}
+    Sea $A = \La {p_1} {p_2}$.
+    \begin{enumerate}[1.]
+        \item $\vdash_L               A$ \hfill (L1)
+        \item $\vdash_L \La {p_1}     A$ \hfill (L1)
+        \item $\vdash_L     {p_1} \to A$ \hfill (MP en 1 y 2)
+    \end{enumerate}
+    \end{solution}
+\end{enumerate}
+
+\begin{exercise}
+Sean $A,B,C$ frases bien formadas cualesquiera. Construya las siguientes deducciones:
+\end{exercise}
+
+\begin{enumerate}[(a)]
+    \item $\{ \neg A \} \vdash_L A \to B$
+    \begin{solution}
+    \leavevmode
+    \begin{enumerate}[1.]
+        \item $\{ \neg A \} \vdash_L                 \neg A$  \hfill (premisa)
+        \item $\{ \neg A \} \vdash_L \La {\neg B}   {\neg A}$ \hfill (L1)
+        \item $\{ \neg A \} \vdash_L      \neg B \to \neg A$  \hfill (MP en 1 y 2)
+        \item $\{ \neg A \} \vdash_L \Lc AB$                  \hfill (L3)
+        \item $\{ \neg A \} \vdash_L A \to B$                 \hfill (MP en 3 y 4)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $\{ \neg \neg A \} \vdash_L A$
+    \begin{solution}
+    Sea $X = \neg \neg A$.
+    \begin{enumerate}[1.]
+        \item $\{ X \} \vdash_L X$                     \hfill (premisa)
+        \item $\{ X \} \vdash_L \La {\neg \neg X} X$   \hfill (L1)
+        \item $\{ X \} \vdash_L {\neg \neg X} \to X$   \hfill (MP en 1 y 2)
+        \item $\{ X \} \vdash_L \Lc {\neg A} {\neg X}$ \hfill (L3)
+        \item $\{ X \} \vdash_L \neg A \to \neg X$     \hfill (MP en 3 y 4)
+        \item $\{ X \} \vdash_L \Lc XA$                \hfill (L3)
+        \item $\{ X \} \vdash_L X \to A$               \hfill (MP en 5 y 6)
+        \item $\{ X \} \vdash_L A$                     \hfill (MP en 1 y 7)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $\{ A \to B, \neg (B \to C) \to \neg A \} \vdash_L A \to C$
+    \begin{solution}
+    Sean $X = A \to B$, $Y = B \to C$, $Z = A \to C$ y $\Gamma = \{ X, \neg Y \to \neg A \}$.
+    \begin{enumerate}[1.]
+        \item $\Gamma \vdash_L X$                       \hfill (premisa)
+        \item $\Gamma \vdash_L \neg Y \to \neg A$       \hfill (premisa)
+        \item $\Gamma \vdash_L \Lc AY$                  \hfill (L3)
+        \item $\Gamma \vdash_L A \to Y$                 \hfill (MP en 2 y 3)
+        \item $\Gamma \vdash_L (A \to Y) \to (X \to Z)$ \hfill (L2)
+        \item $\Gamma \vdash_L X \to Z$                 \hfill (MP en 4 y 5)
+        \item $\Gamma \vdash_L Z$                       \hfill (MP en 1 y 6)
+    \end{enumerate}
+    \end{solution}
+    
+    \item $\{ A \to (B \to C) \} \vdash_L B \to (A \to C)$
+    \begin{solution}
+    Sean $X = B \to C$, $Y = A \to B$, $Z = A \to C$ y $\Gamma = \{ A \to X \}$.
+    \begin{enumerate}[1.]
+        \item $\Gamma \vdash_L A \to X$                 \hfill (premisa)
+        \item $\Gamma \vdash_L (A \to X) \to (Y \to Z)$ \hfill (L2)
+        \item $\Gamma \vdash_L Y \to Z$                 \hfill (MP en 1 y 2)
+        \item $\Gamma \vdash_L \La B {(Y \to Z)}$       \hfill (L1)
+        \item $\Gamma \vdash_L B \to (Y \to Z)$         \hfill (MP en 3 y 4)
+        \item $\Gamma \vdash_L \Lb BYZ$                 \hfill (L2)
+        \item $\Gamma \vdash_L \Lbh BYZ$                \hfill (MP en 5 y 6)
+        \item $\Gamma \vdash_L B \to Y$                 \hfill (L1)
+        \item $\Gamma \vdash_L B \to Z$                 \hfill (MP en 8 y 7)
+    \end{enumerate}
+    \end{solution}
+\end{enumerate}

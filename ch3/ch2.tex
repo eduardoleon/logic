@@ -1,0 +1,73 @@
+\chapter{Interpretaciones}
+
+\begin{definition}
+Una \textit{interpretación} $I$ de $\mathscr L$ consta de
+\begin{enumerate}
+    \item Un conjunto no vacío $D_I$, llamado el \textit{dominio} de $I$.
+    \item Un elemento $\bar a_i \in D_I$, para cada constante $a_i$ de $\mathscr L$.
+    \item Una función $\bar f_i^n : D_I^n \to D_I$, para cada símbolo de función $f_i^n$ de $\mathscr L$.
+    \item Una relación $\bar A_i^n \subset D_I^n$, para cada símbolo de predicado $A_i^n$ de $\mathscr L$.
+\end{enumerate}
+\end{definition}
+
+\begin{remarks}
+\leavevmode
+\begin{itemize}
+    \item En un lenguaje de primer orden, las variables $x_i$ son interpretadas como elementos de $D_I$.
+    
+    \item En un lenguaje de \textit{segundo} orden, existe un segundo tipo de variables $p_i^n$ que son interpretadas como relaciones $R \subset D_I^n$.
+\end{itemize}
+\end{remarks}
+
+\begin{example}
+Sea $\mathscr L$ el lenguaje de primer orden que contiene los símbolos $a_1$, $f_1^1$, $f_1^2$, $f_2^3$, $A_1^2$. Investiguemos los posibles significados de la frase bien formada $A = (\forall x_1) (\forall x_2) (\exists x_3) \, A_1^2(f_1^2(x_1, x_3), x_2)$.
+
+Sea $N$ la interpretación de $\mathscr L$ en el dominio $D_N = \mathbb N$ en la cual $\bar a_1$ es cero, $\bar f_1^1$ es la función sucesor, $\bar f_1^2$ es la adición, $\bar f_2^2$ es la multiplicación y $\bar A_1^2$ es la relación de igualdad. La frase $A$ es falsa en $N$.
+
+Seas $N'$ la interpretación de $\mathscr L$ obtenida a partir de $N$, redefiniendo $\bar A_1^2$ como la relación ``mayor que''. La frase $A$ es verdadera en $N$, pues, tomando $x_3 = x_2 + 1$, garantizamos que $x_1 + x_3 > x_2$.
+\end{example}
+
+\begin{remarks}
+\leavevmode
+\begin{itemize}
+    \item Los términos y frases bien formadas de $\mathscr L$ carecen de significado intrínseco.
+    \item Una interpretación de $\mathscr L$ \textit{da significado} a los términos y frases bien formadas de $\mathscr L$.
+    \item Una misma frase puede ser verdadera en una interpretación y falsa en otra interpretación.
+\end{itemize}
+\end{remarks}
+
+\begin{example}
+El principio del buen ordenamiento dice que
+\begin{quote}
+``Todo conjunto no vacío de números naturales tiene un elemento mínimo.''
+\end{quote}
+
+Cabe preguntarse si el principio del buen ordenamiento se puede expresar en un lenguaje formal con la interpretación $N'$ del ejemplo anterior. Esto depende del lenguaje:
+
+\begin{itemize}
+    \item El principio del buen ordenamiento no se puede expresar en $\mathscr L$.
+    
+    \item El principio del buen ordenamiento se puede expresar como la frase de segundo orden
+    $$(\forall p_1^1) \, [(\exists x_1) \, p_1^1(x_1) \to (\exists x_1) \, [p_1^1(x_1) \wedge (\forall x_2) \, [p_1^1(x_2) \to    A_2^2(f_1^1(x_2), x_1)]]]$$
+\end{itemize}
+\end{example}
+
+\setcounter{exercise}{10}
+\begin{exercise}
+Sea $\mathscr L$ el lenguaje de primer orden con símbolos $a_1, f_1^2, A_2^2$. Sea $A$ la frase bien formada
+$$(\forall x_1) (\forall x_2) \, (A_2^2(f_1^2(x_1, x_2), a_1) \to A_2^2(x_1, x_2))$$
+
+Considere la interpretación $I$ de $\mathscr L$ en el dominio $D_I = \mathbb Z$ en la cual $\bar a_1$ es cero, $\bar f_1^2$ es la sustracción, $\bar A_2^2$ es la relación ``menor que''. Escriba el significado de $A$ en $I$. ¿Es este significado verdadero o falso? Exhiba otra interpretación de $\mathscr L$ en la cual el significado de $A$ tiene el valor de verdad opuesto.
+\end{exercise}
+
+\begin{solution}
+El significado de $A$ en $I$ es ``para todo $x_1, x_2 \in \mathbb Z$, si $x_1 - x_2 < 0$, entonces $x_1 < x_2$'', y es cierto. Si invertimos el orden de los argumentos de $\bar f_1^2$, entonces el significado de $A$ es falso.
+\end{solution}
+
+\begin{exercise}
+¿Existe alguna interpretación en la cual la frase bien formada $(\forall x_1) \, (A_1^1(x_1) \to A_1^1(f_1^1(x_1)))$ tenga un significado falso? Justifique.
+\end{exercise}
+
+\begin{solution}
+Sí, considere la interpretación $\Omega$ en el dominio $D_\Omega = \{ V, F \}$ en la cual $\bar A_1^1(p) = p$ y $\bar f_1^1(p) = \neg p$.
+\end{solution}
